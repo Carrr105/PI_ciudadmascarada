@@ -16,21 +16,22 @@ app.config['JWT_SECRET_KEY'] = "secret"
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
-db = mongo.db.Usuario
 CORS(app)
-
+db = mongo.db.Historia
 
 @app.route('/hist', methods=['GET'])
 def getHist():
+    db = mongo.db.Historia
     hist = []
     for doc in db.find():
         hist.append({
-            'userid': request.json['userid'],
-            'titulo': request.json['titulo'],
-            'descripcion': request.json['descripcion'],
-            'valvar': request.json['valvar'],
-            'nombrevar': request.json['valvar'],
-            'first node': request.json['first node']
+            '_id': str(ObjectId(doc['_id'])),
+            'userid': doc['userid'],
+            'titulo': doc['titulo'],
+            'descripcion': doc['descripcion'],
+            'valvar': doc['valvar'],
+            'nombrevar': doc['nombrevar'],
+            'firstnode': doc['firstnode']
         })
     return jsonify(hist)
 
