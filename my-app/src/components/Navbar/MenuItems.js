@@ -1,12 +1,22 @@
 export const MenuItems = [
     {
-      title: "Historias",
-      url: "#",
+      title: "Crear Historia",
+      url: "/New",
+      cName: "nav-links",
+    },
+    {
+      title: "Editar Historia",
+      url: "/Edit",
+      cName: "nav-links",
+    },
+    {
+      title: "Ver Historia",
+      url: "/View",
       cName: "nav-links",
     },
     {
       title: "Cerrar Sesión",
-      url: "#",
+      url: "/Main",
       cName: "nav-links",
     },
 ]
