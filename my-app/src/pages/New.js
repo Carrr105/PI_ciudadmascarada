@@ -16,14 +16,14 @@ function New() {
     }
     return (
         <>
-            <h1>Nuevo Titulo</h1>
+            <h1>Nuevo Capitulo</h1>
             <form>
-                <label htmlFor="title">Titulo</label>
+                <label htmlFor="title">Titulo del Capitulo</label>
                 <input type="text" placeholder="titulo" id="value" value={title} onChange={handleChange} />
                 <div className="editor">
                     <div ref={quillRef}></div>
                 </div>
-                <button>Enviar</button>
+                <button>Guardar</button>
             </form>
         </>
     )

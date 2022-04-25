@@ -36,3 +36,37 @@
     transform: rotate(360deg);
   }
 }
+* {
+  box-sizing: border-box;
+}
+.form-field {
+  flex: 2;
+}
+
+.form-field label,
+h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: rgb(84, 84, 84);
+}
+
+input {
+  height: 35px;
+  width: 20%;
+  padding: 7px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid rgb(220, 220, 220);
+}
+
+.services {
+  display: flex;
+  justify-content: space-between;
+}
+.first-division {
+  display: flex;
+  flex-direction: column;
+  margin: 0 5px 0.5rem 0;
+  width: 100%;
+}
