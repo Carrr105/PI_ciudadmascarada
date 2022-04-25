@@ -1,7 +1,7 @@
 export const MenuItems = [
     {
       title: "Crear Historia",
-      url: "/New",
+      url: "/NewStory",
       cName: "nav-links",
     },
     {
