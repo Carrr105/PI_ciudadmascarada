@@ -18,7 +18,9 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 CORS(app)
 db = mongo.db.Historia
-
+##########################################################
+##### cuadros/historia
+#####
 @app.route('/hist', methods=['GET'])
 def getHist():
     db = mongo.db.Historia
@@ -31,9 +33,59 @@ def getHist():
             'descripcion': doc['descripcion'],
             'valvar': doc['valvar'],
             'nombrevar': doc['nombrevar'],
-            'firstnode': doc['firstnode']
+            'firstnode': str(ObjectId(doc['firstnode']))
         })
     return jsonify(hist)
+
+@app.route('/cuadro/<id>', methods=['GET'])
+def getCuad(id):
+    db = mongo.db.Cuadro
+    cuadros = []
+    for doc in db.find({'histid': ObjectId(id)}):
+        cuad.append({
+            '_id': str(ObjectId(doc['_id'])),
+            'histid': doc['userid'],
+            'fathernode': doc['titulo'],
+            'text': str(ObjectId(doc['firstnode']))
+        })
+    return jsonify(cuad)
+
+@app.route('/cuadro', methods=["POST"])
+def createHist():
+    story = mongo.db.Cuadro
+    histid = request.get_json()['histid']
+    fathernode = request.get_json()['fathernode']
+    text = request.get_json()['text']
+    cuad_id = story.insert_one({
+        'histid': histid,
+        'fathernode': fathernode,
+        'text': text,
+    }).inserted_id
+    new_cuad = users.find_one({'_id': cuad_id})
+    return jsonify({'result' : new_cuad["_id"]})
+
+
+
+@app.route('/hist', methods=["POST"])
+def createHist():
+    story = mongo.db.Historia
+    titulo = request.get_json()['titulo']
+    userid = request.get_json()['userid']
+    descripcion = request.get_json()['descripcion']
+    valvar = request.get_json()['valvar']
+    nombrevar = request.get_json()['nombrevar']
+    firstnode = request.get_json()['firstnode']
+    story_id = story.insert_one({
+        'titulo': titulo,
+        'userid': userid,
+        'descripcion': descripcion,
+        "valvar" : valvar,
+        "nombrevar" : nombrevar,
+        "firstnode" : firstnode
+    }).inserted_id
+    new_st = users.find_one({'_id': story_id})
+    return jsonify({'result' : new_st["_id"]})
+
 
 #######################################
 @app.route('/users', methods=['GET'])
