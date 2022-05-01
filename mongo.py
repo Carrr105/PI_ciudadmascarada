@@ -37,11 +37,11 @@ def getHist():
         })
     return jsonify(hist)
 
-@app.route('/cuadro/<id>', methods=['GET'])
-def getCuad(id):
+@app.route('/cuadro', methods=['GET'])
+def getCuad():
     db = mongo.db.Cuadro
     cuadros = []
-    for doc in db.find({'histid': ObjectId(id)}):
+    for doc in db.find():
         cuad.append({
             '_id': str(ObjectId(doc['_id'])),
             'histid': doc['histid'],
