@@ -44,22 +44,28 @@ def getCuad(id):
     for doc in db.find({'histid': ObjectId(id)}):
         cuad.append({
             '_id': str(ObjectId(doc['_id'])),
-            'histid': doc['userid'],
-            'fathernode': doc['titulo'],
-            'text': str(ObjectId(doc['firstnode']))
+            'histid': doc['histid'],
+            'fathernode': str(ObjectId(doc['firstnode'])),
+            'text': doc['text'],
+            'KeyVals': doc['KeyVals'],
+            'DecisionVals':doc['DecisionVals']
         })
     return jsonify(cuad)
 
 @app.route('/cuadro', methods=["POST"])
-def createHist():
+def createCuad():
     story = mongo.db.Cuadro
     histid = request.get_json()['histid']
     fathernode = request.get_json()['fathernode']
     text = request.get_json()['text']
+    KeyVals = request.get_json()['KeyVals']
+    DecisionVals = request.get_json()['DecisionVals']
     cuad_id = story.insert_one({
         'histid': histid,
         'fathernode': fathernode,
         'text': text,
+        'KeyVals': KeyVals,
+        'DecisionVals': DecisionVals
     }).inserted_id
     new_cuad = users.find_one({'_id': cuad_id})
     return jsonify({'result' : new_cuad["_id"]})
