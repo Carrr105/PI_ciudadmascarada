@@ -37,6 +37,21 @@ def getHist():
         })
     return jsonify(hist)
 
+@app.route('/deleteHist/<id>', methods=['POST'])
+def deleteHist(id):
+    db = mongo.db.Historia
+    dbC = mongo.db.Cuadro
+    dbC.delete_many({"histid": id})
+    result = db.findById(id).remove()
+    return result.deleted_count
+
+
+@app.route('/deleteCuadro/<id>', methods=['POST'])
+def deleteCuadro(id):
+    dbC = mongo.db.Cuadro
+    result = dbC.findById(id).remove()
+    return result.deleted_count
+
 @app.route('/cuadro', methods=['GET'])
 def getCuad():
     db = mongo.db.Cuadro
