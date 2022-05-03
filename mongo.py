@@ -13,6 +13,15 @@ app.config['MONGO_DBNAME'] = 'CMascarada'
 app.config['MONGO_URI'] = 'mongodb+srv://user123:proyectointegrador@cm.lgptm.mongodb.net/CMascarada?retryWrites=true&w=majority'
 app.config['JWT_SECRET_KEY'] = "secret"
 
+class MyEncoder(json.JSONEncoder):
+
+    def default(self, obj):
+        if isinstance(obj, ObjectId):
+            return str(obj)
+        return super(MyEncoder, self).default(obj)
+
+app.json_encoder = MyEncoder
+
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
@@ -27,15 +36,30 @@ def getHist():
     hist = []
     for doc in db.find():
         hist.append({
-            '_id': str(ObjectId(doc['_id'])),
+            '_id': doc['_id'],
             'userid': doc['userid'],
             'titulo': doc['titulo'],
             'descripcion': doc['descripcion'],
             'valvar': doc['valvar'],
             'nombrevar': doc['nombrevar'],
-            'firstnode': str(ObjectId(doc['firstnode']))
+            'firstnode': doc['firstnode']
         })
     return jsonify(hist)
+
+@app.route('/cuadro', methods=['GET'])
+def getCuad():
+    db = mongo.db.Cuadro
+    cuadros = []
+    for doc in db.find():
+        cuadros.append({
+            '_id': str(ObjectId(doc['_id'])),
+            'histid': doc['histid'],
+            'fathernode': doc['fathernode'],
+            'text': doc['text'],
+            'KeyVals': doc['KeyVals'],
+            'DecisionVals':doc['DecisionVals']
+        })
+    return jsonify(cuadros)
 
 @app.route('/deleteHist/<id>', methods=['POST'])
 def deleteHist(id):
@@ -52,29 +76,15 @@ def deleteCuadro(id):
     result = dbC.findById(id).remove()
     return result.deleted_count
 
-@app.route('/cuadro', methods=['GET'])
-def getCuad():
-    db = mongo.db.Cuadro
-    cuadros = []
-    for doc in db.find():
-        cuad.append({
-            '_id': str(ObjectId(doc['_id'])),
-            'histid': doc['histid'],
-            'fathernode': str(ObjectId(doc['firstnode'])),
-            'text': doc['text'],
-            'KeyVals': doc['KeyVals'],
-            'DecisionVals':doc['DecisionVals']
-        })
-    return jsonify(cuad)
 
 @app.route('/cuadro', methods=["POST"])
 def createCuad():
-    story = mongo.db.Cuadro
-    histid = request.get_json()['histid']
-    fathernode = request.get_json()['fathernode']
-    text = request.get_json()['text']
+    cuad = mongo.db.Cuadro
     KeyVals = request.get_json()['KeyVals']
     DecisionVals = request.get_json()['DecisionVals']
+    fathernode = request.get_json()['fathernode']
+    histid = request.get_json()['histid']
+    text = request.get_json()['text']
     cuad_id = story.insert_one({
         'histid': histid,
         'fathernode': fathernode,
@@ -82,7 +92,7 @@ def createCuad():
         'KeyVals': KeyVals,
         'DecisionVals': DecisionVals
     }).inserted_id
-    new_cuad = users.find_one({'_id': cuad_id})
+    new_cuad = cuad.find_one({'_id': cuad_id})
     return jsonify({'result' : new_cuad["_id"]})
 
 
@@ -104,7 +114,7 @@ def createHist():
         "nombrevar" : nombrevar,
         "firstnode" : firstnode
     }).inserted_id
-    new_st = users.find_one({'_id': story_id})
+    new_st = story.find_one({'_id': story_id})
     return jsonify({'result' : new_st["_id"]})
 
 
@@ -130,7 +140,7 @@ def register():
     users = mongo.db.Usuario
     usuario = request.get_json()['usuario']
     email = request.get_json()['email']
-    password = request.get_json()['email']
+    password = request.get_json()['password']
     print("hi","\n")
     user_id = users.insert_one({
         'usuario': usuario,
