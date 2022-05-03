@@ -47,7 +47,7 @@ function NewStory() {
 
         </><form className="App" autoComplete="off">
                 <div className="form-field">
-                    <label htmlFor="service">Variables</label>
+                     <h1>Crea tus variables</h1>
                     {serviceList.map((singleService, index) => (
                         <div key={index} className="services">
                             <div className="first-division">
@@ -55,6 +55,7 @@ function NewStory() {
                                     name="service"
                                     type="text"
                                     id="service"
+                                    placeholder="Variable"
                                     value={singleService.service}
                                     onChange={(e) => handleServiceChange(e, index)}
                                     required />
