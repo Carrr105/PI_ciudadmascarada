@@ -85,7 +85,7 @@ def createCuad():
     fathernode = request.get_json()['fathernode']
     histid = request.get_json()['histid']
     text = request.get_json()['text']
-    cuad_id = story.insert_one({
+    cuad_id = cuad.insert_one({
         'histid': histid,
         'fathernode': fathernode,
         'text': text,
