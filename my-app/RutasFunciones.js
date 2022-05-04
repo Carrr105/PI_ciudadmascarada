@@ -30,8 +30,12 @@ export const login = user => {
 export const hist = newHist => {
     return axios
         .post("http://127.0.0.1:5000/users/login", {
-            email: user.email,
-            password: user.password
+            userid: newHist.userid,
+            titulo: newHist.titulo,
+            descripcion: newHist.descripcion,
+            valvar: newHist.valvar,
+            nombrevar: newHist.nombrevar,
+            firstnode: newHist.firstnode
         })
         .then(response => {
             console.log("Nueva historia")
@@ -41,11 +45,11 @@ export const hist = newHist => {
         })
 }
 
-export const cuad = newCuad => {
+export const newCuad = newCuadro => {
     return axios
         .post("http://127.0.0.1:5000/cuadro", {
             histid: newCuad.histid,
-            fathernode: newCuad.text.
+            fathernode: newCuad.text,
             text: newCuad.text,
             KeyVals: newCuad.KeyVals,
             DecisionVals: newCuad.DecisionVals,
@@ -58,10 +62,10 @@ export const cuad = newCuad => {
         })
 }
 
-export const cuad = getCuad => {
+export const getCuad = getCuadro => {
     return axios
         .get(`http://127.0.0.1:5000/cuadro`, {
-          console.log("????")
+          headers: { 'Content-type': 'application/json' }
         })
         .then(res => {
             var data = []
