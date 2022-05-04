@@ -29,7 +29,7 @@ export const login = user => {
 
 export const hist = newHist => {
     return axios
-        .post("http://127.0.0.1:5000/users/login", {
+        .post("http://127.0.0.1:5000/hist", {
             userid: newHist.userid,
             titulo: newHist.titulo,
             descripcion: newHist.descripcion,
