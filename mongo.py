@@ -61,7 +61,7 @@ def getCuad():
         })
     return jsonify(cuadros)
 
-@app.route('/deleteHist/<id>', methods=['POST'])
+@app.route('/deleteHist/<id>', methods=['DELETE'])
 def deleteHist(id):
     db = mongo.db.Historia
     dbC = mongo.db.Cuadro
@@ -70,7 +70,7 @@ def deleteHist(id):
     return result.deleted_count
 
 
-@app.route('/deleteCuadro/<id>', methods=['POST'])
+@app.route('/deleteCuadro/<id>', methods=['DELETE'])
 def deleteCuadro(id):
     dbC = mongo.db.Cuadro
     result = dbC.findById(id).remove()
@@ -95,6 +95,26 @@ def createCuad():
     new_cuad = cuad.find_one({'_id': cuad_id})
     return jsonify({'result' : new_cuad["_id"]})
 
+# Update de un cuadro recibiendo su id
+@app.route('/cuadro', methods=["PUT"])
+def updateCuadro():
+    cuad = mongo.db.Cuadro
+    KeyVals = request.get_json()['KeyVals']
+    DecisionVals = request.get_json()['DecisionVals']
+    fathernode = request.get_json()['fathernode']
+    histid = request.get_json()['histid']
+    text = request.get_json()['text']
+    c_id = request.get_json()['_id']
+    new_cuad = {
+        'histid': histid,
+        'fathernode': fathernode,
+        'text': text,
+        'KeyVals': KeyVals,
+        'DecisionVals': DecisionVals
+    }
+    cuad.update_one({'_id': c_id}, {"$set": new_cuad})
+    foundnew_cuad = cuad.find_one({'_id': c_id})
+    return jsonify({'result' : foundnew_cuad["_id"]})
 
 
 @app.route('/hist', methods=["POST"])
