@@ -1,14 +1,14 @@
 * {
     box-sizing: border-box;
   }
-  
+
   .App {
     width: 70vh;
     margin: 5rem auto;
     display: flex;
     justify-content: space-between;
   }
-  
+
   .form-field {
     flex: 2;
   }
@@ -23,7 +23,7 @@
     font-weight: 500;
     color: rgb(84, 84, 84);
   }
-  
+
   input {
     height: 35px;
     width: 100%;
@@ -32,11 +32,11 @@
     border-radius: 5px;
     border: 1px solid rgb(220, 220, 220);
   }
-  
+
   input:focus {
     border: 1px solid rgb(0, 208, 255);
   }
-  
+
   .services {
     display: flex;
     justify-content: space-between;
@@ -63,7 +63,7 @@
     color: rgb(0, 208, 255);
     border: 1px solid rgb(0, 208, 255);
   }
-  
+
   .second-division button {
     color: red;
     border: 1px solid red;

@@ -10,16 +10,15 @@ class Navbar extends Component {
     }
     render(){
       return(
-        <nav className="NavbarItems">
-          <h1 className="navbar-logo"> Ciudad Mascarada <i className="fab fa-react"></i></h1>
+        <nav className="navbar navbar-expand-lg bg-dark">
           <div className="menu-icon" onClick={this.handleClick}>
               <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
           </div>
           <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
             {MenuItems.map((item,index)=> {
               return (
-                <li key={index}>
-                  <a className={item.cName} href={item.url}>
+                <li className = "btn btn-outline-success ">
+                  <a href={item.url} style={{color: "white"}}>
                     {item.title}
                   </a>
                 </li>
@@ -30,5 +29,5 @@ class Navbar extends Component {
       )
     }
   }
-  
+
 export default Navbar;

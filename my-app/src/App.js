@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar';
 import NewStory from './pages/NewStory'
 import New from './pages/New'
 import View from './pages/View'
+import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
 function App() {
