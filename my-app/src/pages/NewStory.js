@@ -4,6 +4,7 @@ import toolbar from "../toolbar"
 import "quill/dist/quill.snow.css"
 import {getCuad, newCuad, hist} from  "../RutasFunciones"
 import {Link, useNavigate} from 'react-router-dom'
+
 function NewStory() {
     const navigate = useNavigate();
 
@@ -75,9 +76,8 @@ function NewStory() {
 
             </form>
 </div>
-
-        </><form className="App" autoComplete="off">
-                <div className="form-field " style={{marginTop: 10, paddingLeft: 795, paddingRight:700, display:""}}>
+        </><form className="App" autoComplete="off" >
+                <div className="form-field " style={{marginTop: 10, paddingLeft: 795, paddingRight:700, display:"", }}>
                      <h3>Variables</h3>
                     {serviceList.map((singleService, index) => (
                         <div key={index} className="input-group-append">

@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import {getCuad, newCuad, hist, getHist} from  "../RutasFunciones"
 import {Link, useNavigate} from 'react-router-dom'
-export default class TutorialsList extends Component {
+export default class StoriesList extends Component {
   constructor(props) {
     super(props);
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
-    this.retrieveTutorials = this.retrieveTutorials.bind(this);
+    this.retrieveStories = this.retrieveStories.bind(this);
     this.refreshList = this.refreshList.bind(this);
     this.setActiveTutorial = this.setActiveTutorial.bind(this);
-    this.removeAllTutorials = this.removeAllTutorials.bind(this);
+    this.removeAllStories = this.removeAllStories.bind(this);
     this.searchTitle = this.searchTitle.bind(this);
 
     this.state = {
-      tutorials: [],
+      Stories: [],
       currentTutorial: null,
       currentIndex: -1,
       searchTitle: ""
@@ -20,7 +20,7 @@ export default class TutorialsList extends Component {
   }
 
   componentDidMount() {
-    this.retrieveTutorials();
+    this.retrieveStories();
   }
 
   onChangeSearchTitle(e) {
@@ -31,11 +31,11 @@ export default class TutorialsList extends Component {
     });
   }
 
-  retrieveTutorials() {
+  retrieveStories() {
     getHist().then(response => {
       console.log(response)
         this.setState({
-          tutorials: response
+          Stories: response
         });
         console.log(response);
       })
@@ -45,7 +45,7 @@ export default class TutorialsList extends Component {
   }
 
   refreshList() {
-    this.retrieveTutorials();
+    this.retrieveStories();
     this.setState({
       currentTutorial: null,
       currentIndex: -1
@@ -59,7 +59,7 @@ export default class TutorialsList extends Component {
     });
   }
 
-  removeAllTutorials() {
+  removeAllStories() {
 
   }
 
@@ -73,7 +73,7 @@ export default class TutorialsList extends Component {
   }
 
   render() {
-    const { searchTitle, tutorials, currentTutorial, currentIndex } = this.state;
+    const { searchTitle, Stories, currentTutorial, currentIndex } = this.state;
 
     return (
 
@@ -102,8 +102,8 @@ export default class TutorialsList extends Component {
           <h4>Lista de historias</h4>
 
           <ul className="list-group">
-            {tutorials &&
-              tutorials.map((tutorial, index) => (
+            {Stories &&
+              Stories.map((tutorial, index) => (
                 <li
                   className={
                     "list-group-item " +
@@ -119,9 +119,9 @@ export default class TutorialsList extends Component {
 
           <button
             className="m-3 btn btn-sm btn-danger"
-            onClick={this.removeAllTutorials}
+            onClick={this.removeAllStories}
           >
-            Remove All
+            Remover
           </button>
         </div>
         <div className="col-md-6">
@@ -145,9 +145,16 @@ export default class TutorialsList extends Component {
 
               <Link
                 to={"/new"}
-                className="badge badge-warning"
+                className="m-3 btn btn-sm btn-warning"
               >
-                Edit
+                Editar
+              </Link>
+              <Link
+                to={"/read"}
+                className="m-3 btn btn-sm btn-success"
+                style={{marginLeft:10}}
+              >
+                Leer
               </Link>
             </div>
           ) : (

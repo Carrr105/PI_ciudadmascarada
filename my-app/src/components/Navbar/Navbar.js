@@ -10,7 +10,7 @@ class Navbar extends Component {
     }
     render(){
       return(
-        <nav className="navbar navbar-expand-lg bg-dark">
+        <nav  className="navbar navbar-expand-lg bg-dark">
           <div className="menu-icon" onClick={this.handleClick}>
               <i className={this.state.clicked ? 'fas fa-times' : 'fas fa-bars'}></i>
           </div>
