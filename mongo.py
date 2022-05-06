@@ -46,6 +46,22 @@ def getHist():
         })
     return jsonify(hist)
 
+@app.route('/cuadro/<id>', methods=['GET'])
+def getIDCuadbyID(id):
+    db = mongo.db.Cuadro
+    cuadros = []
+    for doc in db.find({'histid': id}):
+        cuadros.append({
+            '_id': str(ObjectId(doc['_id'])),
+            'histid': doc['histid'],
+            'fathernode': doc['fathernode'],
+            'text': doc['text'],
+            'KeyVals': doc['KeyVals'],
+            'DecisionVals':doc['DecisionVals']
+        })
+    return jsonify(cuadros)
+
+
 @app.route('/cuadro', methods=['GET'])
 def getCuad():
     db = mongo.db.Cuadro
@@ -60,6 +76,7 @@ def getCuad():
             'DecisionVals':doc['DecisionVals']
         })
     return jsonify(cuadros)
+
 
 @app.route('/deleteHist/<id>', methods=['DELETE'])
 def deleteHist(id):

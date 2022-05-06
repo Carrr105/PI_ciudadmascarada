@@ -80,3 +80,21 @@ export const getCuad = getCuadro => {
             console.log(err)
         })
 }
+export const getHist = () => {
+    return axios
+        .get(`http://127.0.0.1:5000/hist`, {
+          headers: { 'Content-type': 'application/json' }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach(function (key) {
+                var val = res.data[key]
+                data.push({"id":val._id, "titulo":val.titulo, "descripcion":val.descripcion, "valvar": val.valvar, "nombrevar":val.nombrevar, "firstnode": val.firstnode})
+            })
+
+            return data
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}

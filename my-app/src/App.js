@@ -6,6 +6,8 @@ import Navbar from './components/Navbar/Navbar';
 import NewStory from './pages/NewStory'
 import New from './pages/New'
 import View from './pages/View'
+import Read from './pages/read'
+import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='/view' element={<View />} />
+        <Route path='/read' element={<Read />} />
         <Route path='/edit' element={<Edit />} />
         <Route path='/newstory' element={<NewStory />} />
         <Route path='/new' element={<New />} />
