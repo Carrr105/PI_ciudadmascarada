@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import {getCuad, newCuad, hist, getHist} from  "../RutasFunciones"
+import {getCuad, newCuad, hist, getHist, getCuadsID} from  "../RutasFunciones"
 import {Link, useNavigate} from 'react-router-dom'
+import jwt_decode from 'jwt-decode'
+
+
 export default class StoriesList extends Component {
   constructor(props) {
     super(props);
@@ -15,12 +18,33 @@ export default class StoriesList extends Component {
       Stories: [],
       currentTutorial: null,
       currentIndex: -1,
-      searchTitle: ""
+      searchTitle: "",
+      id:"",
+      usuario:"",
+      reload:false
     };
   }
 
+
+
+
+   refreshPage = () => {
+     this.setState(
+       {reload: true},
+       () => this.setState({reload: false})
+     )
+   }
   componentDidMount() {
     this.retrieveStories();
+    const token = localStorage.usertoken
+    console.log(jwt_decode(token))
+    const decoded = jwt_decode(token)
+
+    this.setState({
+        first_name: decoded.sub.usuario,
+        email: decoded.sub.email
+    })
+
   }
 
   onChangeSearchTitle(e) {
@@ -33,15 +57,14 @@ export default class StoriesList extends Component {
 
   retrieveStories() {
     getHist().then(response => {
-      console.log(response)
         this.setState({
           Stories: response
         });
-        console.log(response);
       })
       .catch(e => {
         console.log(e);
       });
+
   }
 
   refreshList() {
@@ -50,6 +73,7 @@ export default class StoriesList extends Component {
       currentTutorial: null,
       currentIndex: -1
     });
+
   }
 
   setActiveTutorial(tutorial, index) {
@@ -69,6 +93,28 @@ export default class StoriesList extends Component {
       currentIndex: -1
     });
 
+
+  }
+
+  morir(event){
+    var x = []
+    getCuad().then(response => {
+
+           for (var i = 0; i < response.length; i++) {
+             x.push(response[i][2])
+           }
+           localStorage.setItem("editar",x)
+
+           console.log(x)
+           })
+           .catch(e => {
+             console.log(e);
+           });
+
+    localStorage.setItem("titulo",this.state.currentTutorial.titulo)
+    localStorage.deleteItem("editar")
+    console.log(localStorage.getItem("editar"))
+    console.log(  localStorage.getItem("titulo"))
 
   }
 
@@ -145,6 +191,7 @@ export default class StoriesList extends Component {
 
               <Link
                 to={"/new"}
+                onClick={this.morir.bind(this)}
                 className="m-3 btn btn-sm btn-warning"
               >
                 Editar

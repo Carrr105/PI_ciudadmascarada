@@ -204,13 +204,15 @@ def login():
                 'usuario': response['usuario'],
                 'password': response['password']
             })
-            result = jsonify({'token':access_token})
+
+            new_user = users.find_one({'usuario': usuario})
+            result = jsonify({'token':access_token, 'id':new_user["_id"]})
             print(access_token)
         else:
             exit;
             result = jsonify({"error":"Invalid username and password"})
     else:
-        result = jsonify({"result":"No results found"})
+        result = jsonify({"result":"0"})
     return result
 
 if __name__ == '__main__':

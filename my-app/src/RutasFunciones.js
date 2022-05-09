@@ -19,11 +19,13 @@ export const login = user => {
             password: user.password
         })
         .then(response => {
+            if(response.data.result) {return response.data.result}
             localStorage.setItem('usertoken', response.data.token)
             return response.data.token
         })
         .catch(err => {
-            console.log(err)
+          console.log("aaaaaaaaaaaaaaaaaaaa")
+          console.log(err)
         })
 }
 
@@ -45,9 +47,46 @@ export const hist = newHist => {
         })
 }
 
+export const updateHist = (newHist,id) => {
+    return axios
+        .post(`http://127.0.0.1:5000/hist/${id}`, {
+            userid: newHist.userid,
+            titulo: newHist.titulo,
+            descripcion: newHist.descripcion,
+            valvar: newHist.valvar,
+            nombrevar: newHist.nombrevar,
+            firstnode: newHist.firstnode
+        })
+        .then(response => {
+            console.log("Nueva historia")
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+
+
 export const newCuad = newCuadro => {
     return axios
         .post("http://127.0.0.1:5000/cuadro", {
+            histid: newCuad.histid,
+            fathernode: newCuad.text,
+            text: newCuad.text,
+            KeyVals: newCuad.KeyVals,
+            DecisionVals: newCuad.DecisionVals,
+        })
+        .then(response => {
+            console.log("Nuevo cuadro")
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+export const updateCuad = (newCuadro,id) => {
+    return axios
+        .post(`http://127.0.0.1:5000/cuadro/${id}`, {
             histid: newCuad.histid,
             fathernode: newCuad.text,
             text: newCuad.text,
@@ -80,6 +119,26 @@ export const getCuad = getCuadro => {
             console.log(err)
         })
 }
+
+export const getCuadsID = (getCuadro, id) => {
+    return axios
+        .get(`http://127.0.0.1:5000/cuadro/${id}`, {
+          headers: { 'Content-type': 'application/json' }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach(function (key) {
+                var val = res.data[key]
+                data.push([val._id, val.histid, val.fathernode, val.text, val.KeyVals, val.DecisionVals])
+            })
+
+            return data
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
 export const getHist = () => {
     return axios
         .get(`http://127.0.0.1:5000/hist`, {
