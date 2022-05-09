@@ -33,6 +33,7 @@ function NewStory() {
       console.log(items);
       lst = arr;
       navigate('/new',{state:lst});
+      localStorage.setItem("titulo",title)
       hist(items)
     };
 
@@ -62,22 +63,23 @@ function NewStory() {
     })
     function handleChange(event) {
         setTitle(event.target.value)
+
     }
 
 
     return (
         <><><>
 
-          <div style={{paddingRight: 700,paddingLeft: 795,paddingTop: 20}}>
+          <div style={{paddingRight: 200,paddingLeft: 195,paddingTop: 20}}>
             <h1>Crea tu Historia</h1>
             <input  type="text" style={{PaddingRight: 500}} placeholder="Titulo" id="value" value={title} onChange={handleChange} className="form-control" /> <br />
-            <form  style={{margin: "auto", paddingRight:600}} name="myForm" id="myForm" onsubmit="return validateForm()">
+            <form  style={{margin: "auto", paddingRight:600}} name="myForm" id="myForm" onSubmit="return validateForm()">
                 <br />
 
             </form>
 </div>
         </><form className="App" autoComplete="off" >
-                <div className="form-field " style={{marginTop: 10, paddingLeft: 795, paddingRight:700, display:"", }}>
+                <div className="form-field " style={{marginTop: 10, paddingLeft: 195, paddingRight:700, display:"", }}>
                      <h3>Variables</h3>
                     {serviceList.map((singleService, index) => (
                         <div key={index} className="input-group-append">
@@ -86,7 +88,7 @@ function NewStory() {
                                     name="service"
                                     type="text"
                                     id="service"
-                                    style={{marginRight: 349, marginTop:20}}
+                                    style={{marginRight: 149, marginTop:20}}
                                     placeholder="Variable"
                                     value={singleService.service}
                                     className="form-control"
@@ -119,7 +121,7 @@ function NewStory() {
                     ))}
                 </div>
             </form></>
-            <a style={{margin: 100, paddingLeft: 795,paddingBottom: 300, display:"inline"}}></a>
+            <a style={{margin: 96 ,paddingBottom: 300, display:"inline"}}></a>
             <button name="BotonContinuar" className="btn btn-warning" style={{marginTop: 70}}
                 onClick={() => {
                     funcionx();

@@ -18,9 +18,8 @@ function Main() {
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
   const [serviceList, setServiceList] = useState([{ service: "" }]);
-  var lst = [];
   var x =1;
-
+  var lst = []
 
   useEffect(() => {
     getCuad().then(data=>{
@@ -29,10 +28,10 @@ function Main() {
         lst.push(item);
       }
       console.log(lst)
+      console.log("soy yo")
       const texto = document.getElementById("text");
-      const descripcion = document.getElementById("desc");
       texto.innerHTML = lst[0].text;
-      descripcion.innerHTML = lst[0].fathernode;
+      handleChange(lst)
     })
   }, []);
 
@@ -47,15 +46,13 @@ function Main() {
 
   const funcionx = () => {
     x++;
-    console.log(x)
-    if (5<x) {
+    console.log(lista)
+    if (4<x) {
       x = 0;
     }
-    console.log(lst[x].text)
+    console.log(lista[x].text)
     const texto = document.getElementById("text");
-    const descripcion = document.getElementById("desc");
-    texto.innerHTML = lst[x].text;
-    descripcion.innerHTML = lst[x].fathernode;
+    texto.innerHTML = lista[x].text;
   };
   const funcionxs = () => {
     x--;
@@ -63,11 +60,10 @@ function Main() {
     if (x<0) {
       x = 0;
     }
-    console.log(lst[x].text)
+    console.log(lista[x].text)
     const texto = document.getElementById("text");
     const descripcion = document.getElementById("desc");
-    texto.innerHTML = lst[x].text;
-    descripcion.innerHTML = lst[x].fathernode;
+    texto.innerHTML = lista[x].text;
   };
 
   const handleServiceRemove = (index) => {
@@ -81,30 +77,25 @@ function Main() {
     setServiceList([...serviceList, { service: "" }]);
   };
 
-  const [title, setTitle] = useState("")
-  const { quill, quillRef } = useQuill({
-      modules: {
-          toolbar: toolbar
-      }
-  })
-  function handleChange(event) {
-      setTitle(event.target.value)
+  const [lista, setlista] = useState("")
+  function handleChange(p) {
+      setlista(p)
   }
 
 
     return (
         <>
 
-            <h1  className="text-center" style={{paddingTop:30}}>Titulo</h1>
+            <h1  className="text-center" style={{paddingTop:30}}>{localStorage.getItem("titulo")}</h1>
             <h3 id="desc" class="text-center" style={{paddingTop:10}}>
-            ola ola ola
+            titulo del capitulo
             </h3>
-            <div  id="text" class="text-center" style={{paddingTop:35, marginLeft:700, marginRight:700, marginBottom:100}}>
+            <div  id="text" class="text-center" style={{paddingTop:35, marginLeft:250, marginRight:250, marginBottom:100}}>
 
             <button onClick={() => {
                 funcionx();
               //  window.location.assign("/new");
-            } }>hola</button>
+            } }>holxxxxxxxxxxa</button>
             </div>
 
             <div  style={{position:"fixed",left:0, bottom:0,width:2090,text_align:"center"}}>

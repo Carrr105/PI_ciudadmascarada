@@ -7,6 +7,8 @@ import NewStory from './pages/NewStory'
 import New from './pages/New'
 import View from './pages/View'
 import Read from './pages/read'
+import Login from './pages/Login'
+import Register from "./pages/register"
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
@@ -15,15 +17,20 @@ function App() {
     <BrowserRouter>
     <div className="App">
       <Navbar/>
-    </div>
+
+    <div className="container">
       <Routes>
-        <Route path='/' element={<Main />} />
         <Route path='/view' element={<View />} />
+        <Route path='/' element={<Main />} />
         <Route path='/read' element={<Read />} />
+        <Route path='/register' element={<Register />} />
         <Route path='/edit' element={<Edit />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/newstory' element={<NewStory />} />
         <Route path='/new' element={<New />} />
       </Routes>
+      </div>
+      </div>
     </BrowserRouter>
   )
 }

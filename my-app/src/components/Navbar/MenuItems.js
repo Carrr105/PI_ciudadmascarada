@@ -13,10 +13,5 @@ export const MenuItems = [
       title: "Ver Historia",
       url: "/View",
       cName: "nav-links",
-    },
-    {
-      title: "Cerrar Sesión",
-      url: "/Main",
-      cName: "nav-links",
-    },
+    }
 ]
