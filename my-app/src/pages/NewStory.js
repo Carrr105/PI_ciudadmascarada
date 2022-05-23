@@ -2,9 +2,9 @@ import { useQuill } from "react-quilljs"
 import { useState } from "react"
 import toolbar from "../toolbar"
 import "quill/dist/quill.snow.css"
-import {getCuad, newCuad, hist} from  "../RutasFunciones"
+import {getCuad, newCuad, hist, updateHist} from  "../RutasFunciones"
 import {Link, useNavigate} from 'react-router-dom'
-
+import Swal from 'sweetalert2'
 function NewStory() {
     const navigate = useNavigate();
 
@@ -25,16 +25,91 @@ function NewStory() {
       var items = {
         "titulo" : title,
         "userid" :  "itwjeirojt45345t354kt345kl45jtkl453lkt345",
-        "descripcion" :  "dummy[4]",
+        "descripcion" :  desc,
         "valvar" :  arr,
         "nombrevar" :  "serviceList",
         "firstnode" :  "d123123sfñdasflñsdafg123lñsdfglñsdfg"
       };
       console.log(items);
       lst = arr;
-      navigate('/new',{state:lst});
-      localStorage.setItem("titulo",title)
-      hist(items)
+
+
+
+      const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+  title: '¿Estás seguro que quieres crear esta historia?',
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: '¡Vamos a escribir!',
+  cancelButtonText: 'No, quiero cambiar algo',
+  reverseButtons: true
+}).then((result) => {
+
+
+  if (result.isConfirmed) {
+    console.log("asdlfkmasdklfmakldfmaskldfm")
+    console.log(title.length)
+    if (title.length == 0) {
+
+      Swal.fire({
+        icon: 'warning',
+        title: 'Necesitas un título para tu historia!',
+        showConfirmButton: false,
+        timer: 1000
+      })
+
+
+    }else{
+    console.log(title.length)
+    Swal.fire({
+      icon: 'success',
+      title: '¡A escribir!',
+      showConfirmButton: false,
+      timer: 1000
+    })
+    hist(items).then(response => {
+      console.log(response)
+      var item = {
+        histid: response.result.id,
+        fathernode: "-",
+        titulo: "",
+        text:"",
+        KeyVals:[],
+        DecisionVals:[]
+      }
+      console.log(item)
+      newCuad(item).then(data =>{
+        console.log(data.result)
+        items["firstnode"] = data.result
+        items["_id"] = response.result.id
+        console.log(items)
+        updateHist(items)
+        localStorage.setItem("histid",response.result.id)
+        localStorage.setItem("firstnode",data.result)
+        localStorage.setItem("fathernode","-")
+
+      })
+
+      })
+          navigate('/new',{state:lst});
+          localStorage.setItem("titulo",title)
+
+
+  }
+  } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+  }
+})
+
+
+
     };
 
     const handleServiceChange = (e, index) => {
@@ -66,6 +141,12 @@ function NewStory() {
 
     }
 
+    const [desc, setDesc] = useState("")
+    function handleChangeD(event) {
+      console.log(desc)
+        setDesc(event.target.value)
+
+    }
 
     return (
         <><><>
@@ -77,7 +158,12 @@ function NewStory() {
                 <br />
 
             </form>
+            <h3>Descripción</h3>
+            <textarea onChange={handleChangeD} class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 </div>
+
+
+
         </><form className="App" autoComplete="off" >
                 <div className="form-field " style={{marginTop: 10, paddingLeft: 195, paddingRight:700, display:"", }}>
                      <h3>Variables</h3>

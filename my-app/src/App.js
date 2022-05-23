@@ -9,6 +9,7 @@ import View from './pages/View'
 import Read from './pages/read'
 import Login from './pages/Login'
 import Register from "./pages/register"
+import Flow from "./pages/flow"
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
@@ -28,6 +29,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/newstory' element={<NewStory />} />
         <Route path='/new' element={<New />} />
+        <Route path='/flow' element={<Flow />} />
       </Routes>
       </div>
       </div>

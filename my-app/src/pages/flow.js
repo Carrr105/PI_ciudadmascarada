@@ -4,10 +4,11 @@ import ReactFlow, {
   addEdge,
   useNodesState,
   useEdgesState,
+  Background,
   Controls,
 } from 'react-flow-renderer';
-import {getCuad} from  "../RutasFunciones"
-function Main() {
+import {getCuad, getCuadsID} from  "../RutasFunciones"
+function Flow() {
 var noditos = [];
 var arquitos = [];
 
@@ -24,8 +25,9 @@ console.log(initialNodes)
 
 useEffect(() => {
   var lst=[]
-  getCuad().then(data =>{
-    console.log(data)
+  getCuadsID(localStorage.getItem("histid")).then(data =>{
+    console.log(localStorage.getItem("histid"))
+    console.log("sss")
     var nodos = [];
     var arcos = [];
     for (var i = 0; i < data.length; i++) {
@@ -48,48 +50,19 @@ useEffect(() => {
     var dataa = data.reverse()
     for (var i = 0; i < dataa.length; i++) {
 
-      var arco = { id: String(i)+"-"+String(i+1), source: dataa[i].id, target:dataa[i].fathernode }
+      var arco = { id: String(i)+"-"+String(i+1), source: dataa[i].fathernode, target:dataa[i].id }
       arquitos.push(arco)
     }
    console.log(noditos)
-   setNodes(noditos)
-   setEdges(arquitos)
+   setNodes(noditos.reverse())
+   setEdges(arquitos.reverse())
    console.log(arquitos)
   })
 
 }, []);
 
-  const initialNodes = [
-    {
-      id: '1',
-      type: 'input',
-      data: { label: 'Input Node' },
-      position: { x: 250, y: 25 },
-    },
-
-    {
-      id: '2',
-      // you can also pass a React component as a label
-      data: { label: <div>Default Node</div> },
-      position: { x: 100, y: 125 },
-    },
-    {
-      id: '4',
-      // you can also pass a React component as a label
-      data: { label: <div>Default Node</div> },
-      position: { x: 150, y: 125 },
-    },
-    {
-      id: '3',
-      type: 'output',
-      data: { label: 'Output Node' },
-      position: { x: 240, y: 210 },
-    },
-  ];
-  const initialEdges = [
-    { id: 'e1-2', source: '1', target: '2' },
-    { id: 'e2-3', source: '2', target: '3', animated: true },
-  ];
+  const initialNodes = [];
+  const initialEdges = [];
   const onDragOver = (event => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
@@ -100,10 +73,12 @@ useEffect(() => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
     return (
         <>
-          <ReactFlow  onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} style={{ height: 800 }} nodes={nodes} edges={edges} fitView />
+
+          <ReactFlow  onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} style={{ height: 1000, width:2000  }} nodes={nodes} edges={edges} fitView />
+
           <button onClick={getcuadritos} style={{ marginTop:20}} className="btn btn-outline-secondary">Guardar</button>
         </>
     )
 }
 
-export default Main
+export default Flow
