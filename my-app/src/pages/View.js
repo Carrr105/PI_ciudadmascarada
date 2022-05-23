@@ -10,13 +10,14 @@ export default class StoriesList extends Component {
     this.onChangeSearchTitle = this.onChangeSearchTitle.bind(this);
     this.retrieveStories = this.retrieveStories.bind(this);
     this.refreshList = this.refreshList.bind(this);
-    this.setActiveTutorial = this.setActiveTutorial.bind(this);
+    this.setActivehistoria = this.setActivehistoria.bind(this);
     this.removeAllStories = this.removeAllStories.bind(this);
     this.searchTitle = this.searchTitle.bind(this);
 
     this.state = {
+      SearchStories:[],
       Stories: [],
-      currentTutorial: null,
+      currenthistoria: null,
       currentIndex: -1,
       searchTitle: "",
       id:"",
@@ -49,16 +50,19 @@ export default class StoriesList extends Component {
 
   onChangeSearchTitle(e) {
     const searchTitle = e.target.value;
-
+    console.log(searchTitle)
     this.setState({
-      searchTitle: searchTitle
+      searchTitle: searchTitle,
+      SearchStories: this.state.Stories.filter(hist => hist.titulo.toUpperCase().includes(searchTitle.toUpperCase()))
     });
+    console.log(this.state.Stories.filter(hist => hist.titulo.toUpperCase().includes(searchTitle.toUpperCase())))
   }
 
   retrieveStories() {
     getHist().then(response => {
         this.setState({
-          Stories: response
+          Stories: response,
+          SearchStories: response
         });
       })
       .catch(e => {
@@ -70,15 +74,17 @@ export default class StoriesList extends Component {
   refreshList() {
     this.retrieveStories();
     this.setState({
-      currentTutorial: null,
+      currenthistoria: null,
       currentIndex: -1
     });
 
   }
 
-  setActiveTutorial(tutorial, index) {
+  setActivehistoria(historia, index) {
+    localStorage.setItem("histid",historia.id)
+    console.log(localStorage.getItem("histid"))
     this.setState({
-      currentTutorial: tutorial,
+      currenthistoria: historia,
       currentIndex: index
     });
   }
@@ -89,7 +95,7 @@ export default class StoriesList extends Component {
 
   searchTitle() {
     this.setState({
-      currentTutorial: null,
+      currenthistoria: null,
       currentIndex: -1
     });
 
@@ -111,7 +117,7 @@ export default class StoriesList extends Component {
              console.log(e);
            });
 
-    localStorage.setItem("titulo",this.state.currentTutorial.titulo)
+    localStorage.setItem("titulo",this.state.currenthistoria.titulo)
     localStorage.deleteItem("editar")
     console.log(localStorage.getItem("editar"))
     console.log(  localStorage.getItem("titulo"))
@@ -119,7 +125,7 @@ export default class StoriesList extends Component {
   }
 
   render() {
-    const { searchTitle, Stories, currentTutorial, currentIndex } = this.state;
+    const { searchTitle, SearchStories, currenthistoria, currentIndex } = this.state;
 
     return (
 
@@ -148,17 +154,17 @@ export default class StoriesList extends Component {
           <h4>Lista de historias</h4>
 
           <ul className="list-group">
-            {Stories &&
-              Stories.map((tutorial, index) => (
+            {SearchStories &&
+              SearchStories.map((historia, index) => (
                 <li
                   className={
                     "list-group-item " +
                     (index === currentIndex ? "active" : "")
                   }
-                  onClick={() => this.setActiveTutorial(tutorial, index)}
+                  onClick={() => this.setActivehistoria(historia, index)}
                   key={index}
                 >
-                  {tutorial.titulo}
+                  {historia.titulo}
                 </li>
               ))}
           </ul>
@@ -171,20 +177,20 @@ export default class StoriesList extends Component {
           </button>
         </div>
         <div className="col-md-6">
-          {currentTutorial ? (
+          {currenthistoria ? (
             <div>
               <h4>Historia</h4>
               <div>
                 <label>
                   <strong>Título:</strong>
                 </label>{" "}
-                {currentTutorial.titulo}
+                {currenthistoria.titulo}
               </div>
               <div>
                 <label>
                   <strong>Description:</strong>
                 </label>{" "}
-                {currentTutorial.descripcion}
+                {currenthistoria.descripcion}
               </div>
               <div>
               </div>
@@ -202,6 +208,13 @@ export default class StoriesList extends Component {
                 style={{marginLeft:10}}
               >
                 Leer
+              </Link>
+              <Link
+                to={"/flow"}
+                className="m-3 btn btn-sm btn-primary"
+                style={{marginLeft:10}}
+              >
+                Ver mapa
               </Link>
             </div>
           ) : (

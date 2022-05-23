@@ -54,6 +54,7 @@ def getIDCuadbyID(id):
         cuadros.append({
             '_id': str(ObjectId(doc['_id'])),
             'histid': doc['histid'],
+            'titulo': doc['titulo'],
             'fathernode': doc['fathernode'],
             'text': doc['text'],
             'KeyVals': doc['KeyVals'],
@@ -73,6 +74,7 @@ def getCuad():
             'fathernode': doc['fathernode'],
             'text': doc['text'],
             'KeyVals': doc['KeyVals'],
+            'titulo': doc['titulo'],
             'DecisionVals':doc['DecisionVals']
         })
     return jsonify(cuadros)
@@ -101,10 +103,12 @@ def createCuad():
     DecisionVals = request.get_json()['DecisionVals']
     fathernode = request.get_json()['fathernode']
     histid = request.get_json()['histid']
+    titulo = request.get_json()['titulo']
     text = request.get_json()['text']
     cuad_id = cuad.insert_one({
         'histid': histid,
         'fathernode': fathernode,
+        'titulo': titulo,
         'text': text,
         'KeyVals': KeyVals,
         'DecisionVals': DecisionVals
@@ -112,26 +116,58 @@ def createCuad():
     new_cuad = cuad.find_one({'_id': cuad_id})
     return jsonify({'result' : new_cuad["_id"]})
 
+
+
+
 # Update de un cuadro recibiendo su id
 @app.route('/cuadro', methods=["PUT"])
 def updateCuadro():
     cuad = mongo.db.Cuadro
+    print(request.get_json())
     KeyVals = request.get_json()['KeyVals']
     DecisionVals = request.get_json()['DecisionVals']
     fathernode = request.get_json()['fathernode']
     histid = request.get_json()['histid']
+    titulo = request.get_json()['titulo']
     text = request.get_json()['text']
     c_id = request.get_json()['_id']
     new_cuad = {
         'histid': histid,
+        'titulo': titulo,
         'fathernode': fathernode,
         'text': text,
         'KeyVals': KeyVals,
         'DecisionVals': DecisionVals
     }
-    cuad.update_one({'_id': c_id}, {"$set": new_cuad})
-    foundnew_cuad = cuad.find_one({'_id': c_id})
+    cuad.update_one({'_id': ObjectId(c_id)}, {"$set": {'fathernode':fathernode}})
+    foundnew_cuad = cuad.find_one({'_id': ObjectId(c_id)})
     return jsonify({'result' : foundnew_cuad["_id"]})
+
+@app.route('/hist', methods=["PUT"])
+def updateHist():
+    story = mongo.db.Historia
+    titulo = request.get_json()['titulo']
+    userid = request.get_json()['userid']
+    descripcion = request.get_json()['descripcion']
+    valvar = request.get_json()['valvar']
+    nombrevar = request.get_json()['nombrevar']
+    firstnode = request.get_json()['firstnode']
+    c_id = request.get_json()['_id']
+    story_id = {
+        "c_id" : c_id,
+        'titulo': titulo,
+        'userid': userid,
+        'descripcion': descripcion,
+        "valvar" : valvar,
+        "nombrevar" : nombrevar,
+        "firstnode" : firstnode
+    }
+    story.update_one({'_id': ObjectId(c_id)}, {"$set": {'firstnode': firstnode}})
+    foundnew_cuad = story.find_one({'_id':  ObjectId(c_id)})
+    print("reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+    print(foundnew_cuad)
+    return jsonify({"result":foundnew_cuad["_id"]})
+
 
 
 @app.route('/hist', methods=["POST"])
@@ -152,7 +188,8 @@ def createHist():
         "firstnode" : firstnode
     }).inserted_id
     new_st = story.find_one({'_id': story_id})
-    return jsonify({'result' : new_st["_id"]})
+    result = {'id': new_st['_id']}
+    return jsonify(result = {'id': new_st['_id']})
 
 
 #######################################

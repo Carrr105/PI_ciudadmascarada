@@ -73,7 +73,7 @@ function Navbar(){
                 id="navbar1">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <Link to="/" className="btn btn-outline-info my-2 my-sm-0">
+                        <Link to="/flow" className="btn btn-outline-info my-2 my-sm-0">
                             Home
                         </Link>
                     </li>

@@ -40,17 +40,18 @@ export const hist = newHist => {
             firstnode: newHist.firstnode
         })
         .then(response => {
-            console.log("Nueva historia")
+            return response.data
         })
         .catch(err => {
             console.log(err)
         })
 }
 
-export const updateHist = (newHist,id) => {
+export const updateHist = (newHist) => {
     return axios
-        .post(`http://127.0.0.1:5000/hist/${id}`, {
+        .put(`http://127.0.0.1:5000/hist`, {
             userid: newHist.userid,
+            "_id": newHist["_id"],
             titulo: newHist.titulo,
             descripcion: newHist.descripcion,
             valvar: newHist.valvar,
@@ -58,7 +59,7 @@ export const updateHist = (newHist,id) => {
             firstnode: newHist.firstnode
         })
         .then(response => {
-            console.log("Nueva historia")
+            console.log("historia updateada")
         })
         .catch(err => {
             console.log(err)
@@ -70,36 +71,42 @@ export const updateHist = (newHist,id) => {
 export const newCuad = newCuadro => {
     return axios
         .post("http://127.0.0.1:5000/cuadro", {
-            histid: newCuad.histid,
-            fathernode: newCuad.text,
-            text: newCuad.text,
-            KeyVals: newCuad.KeyVals,
-            DecisionVals: newCuad.DecisionVals,
+            histid: newCuadro.histid,
+            titulo: newCuadro.titulo,
+            fathernode: newCuadro.fathernode,
+            text: newCuadro.text,
+            KeyVals: newCuadro.KeyVals,
+            DecisionVals: newCuadro.DecisionVals,
         })
         .then(response => {
-            console.log("Nuevo cuadro")
+            return response.data
         })
         .catch(err => {
             console.log(err)
         })
 }
 
-export const updateCuad = (newCuadro,id) => {
+export const updateCuad = (newCuadro) => {
     return axios
-        .post(`http://127.0.0.1:5000/cuadro/${id}`, {
-            histid: newCuad.histid,
-            fathernode: newCuad.text,
-            text: newCuad.text,
-            KeyVals: newCuad.KeyVals,
-            DecisionVals: newCuad.DecisionVals,
+        .put(`http://127.0.0.1:5000/cuadro`, {
+            "_id": newCuadro["_id"],
+            histid: newCuadro.histid,
+            titulo: newCuadro.titulo,
+            fathernode: newCuadro.fathernode,
+            text: newCuadro.text,
+            KeyVals: newCuadro.KeyVals,
+            DecisionVals: newCuadro.DecisionVals,
         })
         .then(response => {
-            console.log("Nuevo cuadro")
+            return response.data
         })
         .catch(err => {
             console.log(err)
         })
 }
+
+
+
 
 export const getCuad = getCuadro => {
     return axios
@@ -110,7 +117,7 @@ export const getCuad = getCuadro => {
             var data = []
             Object.keys(res.data).forEach(function (key) {
                 var val = res.data[key]
-                data.push([val._id, val.histid, val.fathernode, val.text, val.KeyVals, val.DecisionVals])
+                data.push({"id":val._id, "histid":val.histid, "titulo":val.titulo, "fathernode":val.fathernode, "text":val.text, "KeyVals":val.KeyVals, "DecisionVals":val.DecisionVals})
             })
 
             return data
@@ -120,7 +127,7 @@ export const getCuad = getCuadro => {
         })
 }
 
-export const getCuadsID = (getCuadro, id) => {
+export const getCuadsID = (id) => {
     return axios
         .get(`http://127.0.0.1:5000/cuadro/${id}`, {
           headers: { 'Content-type': 'application/json' }
@@ -129,7 +136,7 @@ export const getCuadsID = (getCuadro, id) => {
             var data = []
             Object.keys(res.data).forEach(function (key) {
                 var val = res.data[key]
-                data.push([val._id, val.histid, val.fathernode, val.text, val.KeyVals, val.DecisionVals])
+                data.push({"id":val._id, "histid":val.histid, "titulo":val.titulo, "fathernode":val.fathernode, "text":val.text, "KeyVals":val.KeyVals, "DecisionVals":val.DecisionVals})
             })
 
             return data

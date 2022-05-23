@@ -3,12 +3,14 @@ import { useState } from "react"
 import toolbar from "../toolbar"
 import "quill/dist/quill.snow.css"
 import {Link, useLocation} from 'react-router-dom'
-import {getCuad, newCuad, hist, getHist, getCuadsID} from  "../RutasFunciones"
+import {getCuad, newCuad, hist, getHist, getCuadsID, updateCuad} from  "../RutasFunciones"
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Reacts, {useEffect } from 'react';
 import Swal from 'sweetalert2'
 import ButtonGroup from '@mui/material/ButtonGroup';
+
+
 function New() {
   var buttons = [
   <Button id="uno" onClick={() => {
@@ -21,12 +23,77 @@ function New() {
 ];
     const location = useLocation();
     const [title, setTitle] = useState("")
+    const [text, setText] = useState("")
     const [capitulos, setCapitulos] = useState("")
     const { quill, quillRef } = useQuill({
             modules: {
             toolbar: toolbar
         }
     })
+
+    function nuevoCap(){
+      console.log("nuevo cap")
+      var histid = localStorage.getItem("histid")
+      console.log("yo soy el nodo padre: "+ localStorage.getItem("firstnode"))
+      var item = {
+        "_id" : localStorage.getItem("firstnode"),
+        histid: histid,
+        titulo: title,
+        fathernode: localStorage.getItem("fathernode"),
+        text: quill.getText(),
+        KeyVals: [],
+        DecisionVals: []
+      }
+      updateCuad(item).then(data=>{
+        localStorage.setItem("fathernode", localStorage.getItem("firstnode"))
+        var items = {
+          histid: histid,
+          titulo: title,
+          fathernode: localStorage.getItem("fathernode"),
+          text:quill.getText(),
+          KeyVals:[],
+          DecisionVals:[]
+        }
+        newCuad(items).then(data=>{
+          console.log("ahora yo soy el nuevo nodo padre: "+ data.result)
+          localStorage.setItem("firstnode", data.result)
+
+        })
+      })
+    //  window.location.reload()
+    }
+
+    function altCap(){
+      console.log("nuevo cap alterno")
+      var histid = localStorage.getItem("histid")
+      console.log("yo soy el nodo padre: "+ localStorage.getItem("firstnode"))
+      var item = {
+        "_id" : localStorage.getItem("firstnode"),
+        histid: histid,
+        titulo: title,
+        fathernode: localStorage.getItem("fathernode"),
+        text: quill.getText(),
+        KeyVals: [],
+        DecisionVals: []
+      }
+      updateCuad(item).then(data=>{
+        var items = {
+          histid: histid,
+          titulo: title,
+          fathernode: localStorage.getItem("fathernode"),
+          text:quill.getText(),
+          KeyVals:[],
+          DecisionVals:[]
+        }
+        newCuad(items).then(data=>{
+          console.log("ahora yo soy el nuevo nodo padre: "+ data.result)
+          localStorage.setItem("firstnode", data.result)
+
+        })
+      })
+    //  window.location.reload()
+    }
+
     useEffect(() => {
       console.log(lst)
       handleChangeC(localStorage.getItem("editar"))
@@ -74,7 +141,7 @@ var lst = localStorage.getItem("editar")
           '<input id="swal-input2" class="swal2-input">'+ "<a>"+ "</a>"+
           '<select className="form-select" name="select">' +
           '<option value="Variable 1">Variable 1</option>'+
-          '<option value="variable 2" selected>Variable2 2</option>'+
+          '<option id="dos" value="variable 2" selected>Variable2 2</option>'+
           '<option value="Variable 3">Variable 3</option>'+
           '</select>',
         focusConfirm: false,
@@ -123,7 +190,11 @@ var lst = localStorage.getItem("editar")
 
     const handleChange = (event) => {
         setTitle(event.target.value)
-        console.log(location.state)
+        console.log(title)
+    }
+    const handleChangeText = (event) => {
+        setText(event.target.value)
+        console.log(quillRef)
     }
     var ss = []
     function handleChangeC (p){
@@ -131,7 +202,7 @@ var lst = localStorage.getItem("editar")
         ss = p;
         console.log(p)
     }
-    const vdf = [1,2,3,4]
+
     return (
         <>
         <div style={{marginLeft: 0, marginTop:50, marginRight:0 }} >
@@ -139,22 +210,22 @@ var lst = localStorage.getItem("editar")
             <form >
                 <label htmlFor="title" style={{ marginTop:20}} >Título del Capítulo</label>
                 <div  style={{ marginRight:0, paddingRight:500, display:"block"}} >
-                <input type="text" placeholder="titulo" id="value" value={title}  className="form-control" />
+                <input type="text" placeholder="titulo" id="value" onChange={handleChange}  className="form-control" />
                 </div>
-                <div className="editor" style={{ marginTop:20, marginRight:100}}>
-                    <div  style={{ paddingBottom:0}}ref={quillRef}></div>
-                    <Button style= {{marginLeft:0, marginTop:10}} variant="contained">Nuevo Capitulo</Button>
+                <div className="editor"  onChange={handleChangeText} style={{ marginTop:20, marginRight:100}}>
+                    <div style={{ paddingBottom:0}} onChange={handleChangeText} ref={quillRef}></div>
+                    <Button onClick={nuevoCap} style= {{marginLeft:0, marginTop:10}} variant="contained">Nuevo Capitulo</Button>
 
-                    <Button style= {{marginLeft:10, marginTop:10}} variant="contained">Capitulo Alterno</Button>
+                    <Button onClick={altCap} style= {{marginLeft:10, marginTop:10}} variant="contained">Capitulo Alterno</Button>
                     <ButtonGroup  style= {{marginLeft:210, marginTop:10}}color="secondary" aria-label="large secondary button group">
                     {buttons}
                     </ButtonGroup>
 
                 </div>
-                <button style={{ marginTop:20}} className="btn btn-outline-secondary">Guardar</button>
+
 
             </form>
-
+            <button style={{ marginTop:20}} className="btn btn-outline-secondary">Guardar</button>
             <div className="list row" style={{margin: "auto", width: 1500, padding: 100}}>
               <div className="col-md-8">
                 <div className="input-group mb-3">
