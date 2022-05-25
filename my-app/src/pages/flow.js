@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
+  ConnectionLineType,
   addEdge,
   useNodesState,
   useEdgesState,
@@ -8,10 +9,52 @@ import ReactFlow, {
   Controls,
 } from 'react-flow-renderer';
 import {getCuad, getCuadsID} from  "../RutasFunciones"
+import dagre from 'dagre';
 function Flow() {
 var noditos = [];
 var arquitos = [];
+const initialNodes = [];
+const initialEdges = [];
+const dagreGraph = new dagre.graphlib.Graph();
+dagreGraph.setDefaultEdgeLabel(() => ({}));
+  const nodeWidth = 172;
+  const nodeHeight = 36;
 
+  const getLayoutedElements = (nodes, edges, direction = 'TB') => {
+    const isHorizontal = direction === 'LR';
+    dagreGraph.setGraph({ rankdir: direction });
+
+    nodes.forEach((node) => {
+      dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    });
+
+    edges.forEach((edge) => {
+      dagreGraph.setEdge(edge.source, edge.target);
+    });
+
+    dagre.layout(dagreGraph);
+
+    nodes.forEach((node) => {
+      const nodeWithPosition = dagreGraph.node(node.id);
+      node.targetPosition = isHorizontal ? 'left' : 'top';
+      node.sourcePosition = isHorizontal ? 'right' : 'bottom';
+
+      // We are shifting the dagre node position (anchor=center center) to the top left
+      // so it matches the React Flow node anchor point (top left).
+      node.position = {
+        x: nodeWithPosition.x - nodeWidth / 2,
+        y: nodeWithPosition.y - nodeHeight / 2,
+      };
+
+      return node;
+    });
+
+    return { nodes, edges };
+  };
+  const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+  initialNodes,
+  initialEdges
+);
 function getcuadritos(){
   var nodo =     {
         id: '4',
@@ -56,27 +99,55 @@ useEffect(() => {
    console.log(noditos)
    setNodes(noditos.reverse())
    setEdges(arquitos.reverse())
+   getLayoutedElements(noditos,arquitos)
    console.log(arquitos)
   })
 
 }, []);
 
-  const initialNodes = [];
-  const initialEdges = [];
+
   const onDragOver = (event => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
 }, []);
+const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
+const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+const onConnect = (
+  (params) => setEdges((eds) => addEdge({ ...params, type: ConnectionLineType.SmoothStep, animated: true }, eds)),
+  []
+);
+const onLayout = (
+  (direction) => {
+    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+      nodes,
+      edges,
+      direction
+    );
+
+    setNodes([...layoutedNodes]);
+    setEdges([...layoutedEdges]);
+  },
+  [nodes, edges]
+);
+
+  //const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [datos] = useState();
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  //const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
     return (
         <>
 
-          <ReactFlow  onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} style={{ height: 1000, width:2000  }} nodes={nodes} edges={edges} fitView />
+          <ReactFlow connectionLineType={ConnectionLineType.SmoothStep}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          style={{ height: 800  }}
+          nodes={nodes}
+          onConnect={onConnect}
+          edges={edges}
+          fitView />
 
-          <button onClick={getcuadritos} style={{ marginTop:20}} className="btn btn-outline-secondary">Guardar</button>
+          <div className="controls">
+</div>
         </>
     )
 }
