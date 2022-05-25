@@ -11,6 +11,14 @@ function Main() {
 var noditos = [];
 var arquitos = [];
 
+function custompositionX(nodessamelevel, i){
+  return i*(1000/(nodessamelevel+1));
+}
+
+function custompositionY(level){
+  return (level-1)*100;
+}
+
 function getcuadritos(){
   var nodo =     {
         id: '4',
@@ -64,26 +72,26 @@ useEffect(() => {
       id: '1',
       type: 'input',
       data: { label: 'Input Node' },
-      position: { x: 250, y: 25 },
+      position: { x: custompositionX(1,1), y: custompositionY(1) },
     },
 
     {
       id: '2',
       // you can also pass a React component as a label
       data: { label: <div>Default Node</div> },
-      position: { x: 100, y: 125 },
+      position: { x: custompositionX(2,1), y: custompositionY(2) },
     },
     {
       id: '4',
       // you can also pass a React component as a label
       data: { label: <div>Default Node</div> },
-      position: { x: 150, y: 125 },
+      position: { x: custompositionX(2,2), y: custompositionY(2) },
     },
     {
       id: '3',
       type: 'output',
       data: { label: 'Output Node' },
-      position: { x: 240, y: 210 },
+      position: { x: custompositionX(1,1), y: custompositionY(3) },
     },
   ];
   const initialEdges = [
