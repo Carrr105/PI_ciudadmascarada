@@ -6,6 +6,7 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   Background,
+  MiniMap,
   Controls,
 } from 'react-flow-renderer';
 import {getCuad, getCuadsID} from  "../RutasFunciones"
@@ -71,6 +72,7 @@ useEffect(() => {
   getCuadsID(localStorage.getItem("histid")).then(data =>{
     console.log(localStorage.getItem("histid"))
     console.log("sss")
+    data.shift()
     var nodos = [];
     var arcos = [];
     for (var i = 0; i < data.length; i++) {
@@ -140,12 +142,29 @@ const onLayout = (
           <ReactFlow connectionLineType={ConnectionLineType.SmoothStep}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
-          style={{ height: 800  }}
+          style={{ height: 875  }}
           nodes={nodes}
           onConnect={onConnect}
           edges={edges}
-          fitView />
+          attributionPosition="top-center"
+          fitView>
+          <Background color="#0e2944" size={.2}  variant = {"lines"}/>
+          <MiniMap
+      nodeStrokeColor={(n) => {
+        if (n.style?.background) return n.style.background;
+        if (n.type === 'input') return '#0041d0';
+        if (n.type === 'output') {return '#ff0072'} else return "#0e2944"
 
+        return '#eee';
+      }}
+      nodeColor={(n) => {
+        if (n.style?.background) return n.style.background;
+
+        return '#fff';
+      }}
+      nodeBorderRadius={2}
+    />
+          </ReactFlow>
           <div className="controls">
 </div>
         </>
