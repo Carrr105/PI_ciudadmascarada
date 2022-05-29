@@ -24,7 +24,7 @@ function Main() {
   useEffect(() => {
     getCuad().then(data=>{
       for (var i = 0; i < data.length; i++) {
-        var item = {"text":data[i][3], "fathernode":data[i][1]};
+        var item = {"text":data[i].text, "fathernode":data[i].fathernode};
         lst.push(item);
       }
       console.log(lst)
@@ -56,6 +56,7 @@ function Main() {
   };
   const funcionxs = () => {
     x--;
+    console.log(value)
     console.log(x)
     if (x<0) {
       x = 0;

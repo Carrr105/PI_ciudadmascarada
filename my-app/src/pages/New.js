@@ -24,12 +24,20 @@ function New() {
     const location = useLocation();
     const [title, setTitle] = useState("")
     const [text, setText] = useState("")
-    const [capitulos, setCapitulos] = useState("")
+    const [capitulos, setCapitulos] = useState([""])
+    const [capitulo, setCapitulo] = useState([""])
     const { quill, quillRef } = useQuill({
             modules: {
             toolbar: toolbar
         }
     })
+
+    function setActiveCapitulo(historia, index){
+      setCindex(index)
+      //setCapitulo(historia)
+      console.log("-----------------")
+      console.log(historia)
+    }
 
     function nuevoCap(){
       console.log("nuevo cap")
@@ -93,10 +101,16 @@ function New() {
       })
     //  window.location.reload()
     }
-
-    useEffect(() => {
-      console.log(lst)
+    const [isBusy, setBusy] = useState(true)
+    const [cindex, setCindex] = useState(-1)
+    useEffect( () => {
+      console.log(localStorage.getItem("editar"))
       handleChangeC(localStorage.getItem("editar"))
+      getCuadsID(localStorage.getItem("histid")).then(data =>{
+        setCapitulos(data.slice(1))
+        console.log(data)
+        setBusy(false);
+      })
     }, []);
 
     function a(){
@@ -246,25 +260,11 @@ var lst = localStorage.getItem("editar")
               </div>
               <div className="col-md-6" style={{paddingRight: 10}}>
                 <h4>Lista de capitulos</h4>
-
-                <ul className="list-group">
-                  {  localStorage.getItem("editar").split(',').map((capitulo) => (
-                      <li
-                        className={
-                          "list-group-item "
-                        }
-                    //    onClick={() => this.setActiveTutorial(tutorial, index)}
-                      >
-                        {capitulo }
-                      </li>
-                    ))}
-                </ul>
-
-                <button
-                  className="m-3 btn btn-sm btn-danger"
-                >
-                  Remover
-                </button>
+                { isBusy ? <div> esperando </div> :
+                (<ul className="list-group">
+                  {capitulos  ?   capitulos.map((capitulo,index) => (  <li onClick={() => setActiveCapitulo(capitulo, index)} key={index} className={ "list-group-item " + (index === cindex ? "active" : "")}  >{capitulo.titulo }  </li>  )) : [].map((capitulo) => (  <li  className={"list-group-item "}  >{capitulo.titulo }  </li>  ))}
+                </ul>)
+                }
               </div>
 
 

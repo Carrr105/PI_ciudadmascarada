@@ -82,7 +82,10 @@ export default class StoriesList extends Component {
 
   setActivehistoria(historia, index) {
     localStorage.setItem("histid",historia.id)
+    localStorage.setItem("hist",historia)
     console.log(localStorage.getItem("histid"))
+    localStorage.setItem("hist", JSON.stringify(historia));
+
     this.setState({
       currenthistoria: historia,
       currentIndex: index
@@ -107,7 +110,7 @@ export default class StoriesList extends Component {
     getCuad().then(response => {
 
            for (var i = 0; i < response.length; i++) {
-             x.push(response[i][2])
+             x.push(response[i].titulo)
            }
            localStorage.setItem("editar",x)
 
@@ -157,10 +160,7 @@ export default class StoriesList extends Component {
             {SearchStories &&
               SearchStories.map((historia, index) => (
                 <li
-                  className={
-                    "list-group-item " +
-                    (index === currentIndex ? "active" : "")
-                  }
+                  className={ "list-group-item " + (index === currentIndex ? "active" : "")}
                   onClick={() => this.setActivehistoria(historia, index)}
                   key={index}
                 >
