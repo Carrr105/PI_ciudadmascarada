@@ -97,7 +97,7 @@ const handleChangeD = (key, value) => {
         fathernode: localStorage.getItem("fathernode"),
         text: quill.root.innerHTML,
         KeyVals: keys,
-        DecisionVals: []
+        DecisionVals: dec
       }
       updateCuad(item).then(data=>{
         localStorage.setItem("fathernode", localStorage.getItem("firstnode"))
@@ -107,7 +107,7 @@ const handleChangeD = (key, value) => {
           fathernode: localStorage.getItem("fathernode"),
           text: "",
           KeyVals:keys,
-          DecisionVals:dec
+          DecisionVals:[]
         }
         newCuad(items).then(data=>{
           console.log("ahora yo soy el nuevo nodo padre: "+ data.result)
@@ -129,15 +129,15 @@ const handleChangeD = (key, value) => {
         fathernode: localStorage.getItem("fathernode"),
         text: quill.root.innerHTML,
         KeyVals: keys,
-        DecisionVals: []
+        DecisionVals: dec
       }
       updateCuad(item).then(data=>{
         var items = {
           histid: histid,
-          titulo: "",
+          titulo: "Nuevo Capitulo",
           fathernode: localStorage.getItem("fathernode"),
           text:"",
-          KeyVals:[],
+          KeyVals:keys,
           DecisionVals:[]
         }
         newCuad(items).then(data=>{
@@ -234,7 +234,7 @@ var lst = localStorage.getItem("editar")
       (async () => {
 
       const { value: formValues } = await Swal.fire({
-        title: 'Multiple inputs',
+        title: 'Desarrolla tu decisión',
         html:
           '<input id="text" class="swal2-input">'+ "<a>"+ "</a>"+
           '<select class="form-select form-select-sm"  aria-label=".form-select-lg example" id="vars">' +
@@ -322,7 +322,7 @@ function guardar(){
     fathernode: localStorage.getItem("fathernode"),
     text: quill.root.innerHTML,
     KeyVals: keys,
-    DecisionVals: []
+    DecisionVals: dec
   }
   updateCuad(item).then(data =>{
     console.log(data)
@@ -370,7 +370,7 @@ function guardar(){
       (async () => {
 
       const { value: formValues } = await Swal.fire({
-        title: 'Multiple inputs',
+        title: 'Desarrolla tu decisión',
         html:
           '<input id="text" class="swal2-input">'+ "<a>"+ "</a>"+
           '<select class="form-select form-select-sm"  aria-label=".form-select-lg example" id="vars">' +
@@ -450,7 +450,7 @@ function guardar(){
                     </div>
                     <Button onClick={nuevoCap} style= {{marginLeft:0, marginTop:10}} variant="contained">Nuevo Capitulo</Button>
 
-                    <Button onClick={tryme} style= {{marginLeft:10, marginTop:10}} variant="contained">Capitulo Alterno</Button>
+                    <Button onClick={altCap} style= {{marginLeft:10, marginTop:10}} variant="contained">Capitulo Alterno</Button>
                     <ButtonGroup  style= {{marginLeft:210, marginTop:10}}color="secondary" aria-label="large secondary button group">
                     {buttons}
                     </ButtonGroup>

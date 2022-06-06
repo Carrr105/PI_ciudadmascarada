@@ -33,7 +33,7 @@ function Main() {
 
   useEffect(() => {
     getCuadsID(localStorage.getItem("histid")).then(data=>{
-      setCapitulos(data.slice(1))
+      setCapitulos(data)
       console.log(capitulos)
       setOnscreen(data[1])
     })
@@ -54,10 +54,10 @@ useEffect(()=>{
 useEffect(()=>{
 },[vars]);
 function ss(){
+  console.log(onscreen)
   const Toast = Swal.mixin({
-    title: "Are you sure?",
+    title: onscreen.DecisionVals.dec1.text,
     toast:true,
-    text: onscreen.DecisionVals.dec1.text,
     showConfirmButton: true,
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -72,9 +72,8 @@ function ss(){
 
 function bb(){
   const Toast = Swal.mixin({
-    title: "Are you sure?",
+    title: onscreen.DecisionVals.dec2.text,
     toast:true,
-    text: onscreen.DecisionVals.dec2.text,
     showConfirmButton: true,
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -89,9 +88,8 @@ function bb(){
 
 function aa(){
   const Toast = Swal.mixin({
-    title: "Are you sure?",
+    title: onscreen.DecisionVals.dec3.text,
     toast:true,
-    text: onscreen.DecisionVals.dec3.text,
     showConfirmButton: true,
   })
 
