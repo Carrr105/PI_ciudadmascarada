@@ -13,15 +13,17 @@ function NewStory() {
     var lst = {};
     const [serviceList, setServiceList] = useState([{ service: "" }]);
     var olawas = 1234567;
+
     const funcionx = (index) => {
       var vars = [];
-      var arr = []
+      var arr = {}
       console.log(vars)
       for (var i = 0; i < serviceList.length; i++) {
-        vars.push(serviceList[i]["service"]);
-        console.log(vars[i])
-        arr[vars[i]] = 0
+        arr[serviceList[i]["service"]] = 0;
+        arr["~"+serviceList[i]["service"]] = 0;
+
       }
+      console.log(arr)
       var items = {
         "titulo" : title,
         "userid" :  "itwjeirojt45345t354kt345kl45jtkl453lkt345",
@@ -75,13 +77,14 @@ swalWithBootstrapButtons.fire({
       timer: 1000
     })
     hist(items).then(response => {
+      localStorage.setItem("histid",response.result.id)
       console.log(response)
       var item = {
         histid: response.result.id,
         fathernode: "-",
         titulo: "",
         text:"",
-        KeyVals:[],
+        KeyVals:arr,
         DecisionVals:[]
       }
       console.log(item)
@@ -94,12 +97,12 @@ swalWithBootstrapButtons.fire({
         localStorage.setItem("histid",response.result.id)
         localStorage.setItem("firstnode",data.result)
         localStorage.setItem("fathernode","-")
-
+        localStorage.setItem("titulo",title)
+        localStorage.setItem("capId","")
+        navigate('/new',{state:lst});
       })
 
       })
-          navigate('/new',{state:lst});
-          localStorage.setItem("titulo",title)
 
 
   }
@@ -140,6 +143,18 @@ swalWithBootstrapButtons.fire({
         setTitle(event.target.value)
 
     }
+
+    function lol(){
+      const Toast = Swal.mixin({
+        title: "Guía rápida para el usuario",
+        toast:true,
+        text: "¡Crea tu propia historia! Escribe el título, una descripción y agrega las variables con las que quieras avanzar en la historia.",
+        showConfirmButton: true,
+      })
+
+      Toast.fire({
+      })
+      }
 
     const [desc, setDesc] = useState("")
     function handleChangeD(event) {
@@ -187,7 +202,7 @@ swalWithBootstrapButtons.fire({
                                         onClick={handleServiceAdd}
                                         className="btn btn-dark "
                                     >
-                                        <span>Variables</span>
+                                        <span>+</span>
                                     </button>
                                 )}
                             </div>
@@ -207,15 +222,12 @@ swalWithBootstrapButtons.fire({
                     ))}
                 </div>
             </form></>
+
             <a style={{margin: 96 ,paddingBottom: 300, display:"inline"}}></a>
-            <button name="BotonContinuar" className="btn btn-warning" style={{marginTop: 70}}
-                onClick={() => {
-                    funcionx();
-                  //  window.location.assign("/new");
-                } }
-            >
-                Continuar
-            </button></>
+
+            <button name="BotonContinuar" className="btn btn-warning" style={{marginTop: 70}} onClick={() => {funcionx();}}> Continuar </button>
+            <button type="button" onClick={lol} style={{marginTop: 70, marginLeft: 15}}  class="btn btn-info">Info</button>
+            </>
 
     );
 

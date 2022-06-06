@@ -146,9 +146,48 @@ export const getCuadsID = (id) => {
         })
 }
 
+export const getCuadID = (id) => {
+    return axios
+        .get(`http://127.0.0.1:5000/cuadro/x/${id}`, {
+          headers: { 'Content-type': 'application/json' }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach(function (key) {
+                var val = res.data[key]
+                data.push({"id":val._id, "histid":val.histid, "titulo":val.titulo, "fathernode":val.fathernode, "text":val.text, "KeyVals":val.KeyVals, "DecisionVals":val.DecisionVals})
+            })
+
+            return data
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+
 export const getHist = () => {
     return axios
         .get(`http://127.0.0.1:5000/hist`, {
+          headers: { 'Content-type': 'application/json' }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach(function (key) {
+                var val = res.data[key]
+                data.push({"id":val._id, "titulo":val.titulo, "descripcion":val.descripcion, "valvar": val.valvar, "nombrevar":val.nombrevar, "firstnode": val.firstnode})
+            })
+
+            return data
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+export const getHistbyID = (id) => {
+    return axios
+        .get(`http://127.0.0.1:5000/hist/${id}`, {
           headers: { 'Content-type': 'application/json' }
         })
         .then(res => {

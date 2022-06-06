@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {getCuad, newCuad, hist, getHist, getCuadsID} from  "../RutasFunciones"
 import {Link, useNavigate} from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
-
+import Swal from 'sweetalert2'
 
 export default class StoriesList extends Component {
   constructor(props) {
@@ -105,6 +105,18 @@ export default class StoriesList extends Component {
 
   }
 
+lol(){
+  const Toast = Swal.mixin({
+    title: "Guía rápida para el usuario",
+    toast:true,
+    text: "Aquí podras ver tus historias escritas. Selecciona una para comenza a editarla, leerla o ver el mapa de los capítulos.",
+    showConfirmButton: true,
+  })
+
+  Toast.fire({
+  })
+  }
+
   morir(event){
     var x = []
     getCuad().then(response => {
@@ -169,12 +181,6 @@ export default class StoriesList extends Component {
               ))}
           </ul>
 
-          <button
-            className="m-3 btn btn-sm btn-danger"
-            onClick={this.removeAllStories}
-          >
-            Remover
-          </button>
         </div>
         <div className="col-md-6">
           {currenthistoria ? (
@@ -223,6 +229,7 @@ export default class StoriesList extends Component {
             </div>
           )}
         </div>
+        <button type="button" onClick={()=>this.lol()} style={{margin:15}} class="btn btn-info">Info</button>
       </div>
     );
   }
