@@ -63,6 +63,40 @@ def getIDCuadbyID(id):
     return jsonify(cuadros)
 
 
+@app.route('/cuadro/x/<id>', methods=['GET'])
+def getIDCuadbyIDx(id):
+    db = mongo.db.Cuadro
+    cuadros = []
+    for doc in db.find({'_id': ObjectId(id)}):
+        cuadros.append({
+            '_id': str(ObjectId(doc['_id'])),
+            'histid': doc['histid'],
+            'titulo': doc['titulo'],
+            'fathernode': doc['fathernode'],
+            'text': doc['text'],
+            'KeyVals': doc['KeyVals'],
+            'DecisionVals':doc['DecisionVals']
+        })
+    return jsonify(cuadros)
+
+
+@app.route('/hist/<id>', methods=['GET'])
+def getIDHistbyID(id):
+    db = mongo.db.Historia
+    hist = []
+    for doc in db.find({'_id': ObjectId(id)}):
+        hist.append({
+            '_id': doc['_id'],
+            'userid': doc['userid'],
+            'titulo': doc['titulo'],
+            'descripcion': doc['descripcion'],
+            'valvar': doc['valvar'],
+            'nombrevar': doc['nombrevar'],
+            'firstnode': doc['firstnode']
+        })
+    return jsonify(hist)
+
+
 @app.route('/cuadro', methods=['GET'])
 def getCuad():
     db = mongo.db.Cuadro
@@ -139,7 +173,7 @@ def updateCuadro():
         'KeyVals': KeyVals,
         'DecisionVals': DecisionVals
     }
-    cuad.update_one({'_id': ObjectId(c_id)}, {"$set": {'fathernode':fathernode}})
+    cuad.update_one({'_id': ObjectId(c_id)}, {"$set": new_cuad})
     foundnew_cuad = cuad.find_one({'_id': ObjectId(c_id)})
     return jsonify({'result' : foundnew_cuad["_id"]})
 
@@ -154,7 +188,7 @@ def updateHist():
     firstnode = request.get_json()['firstnode']
     c_id = request.get_json()['_id']
     story_id = {
-        "c_id" : c_id,
+        "_id" : ObjectId(c_id),
         'titulo': titulo,
         'userid': userid,
         'descripcion': descripcion,
@@ -162,11 +196,11 @@ def updateHist():
         "nombrevar" : nombrevar,
         "firstnode" : firstnode
     }
-    story.update_one({'_id': ObjectId(c_id)}, {"$set": {'firstnode': firstnode}})
+    story.update_one({'_id': ObjectId(c_id)}, story_id)
     foundnew_cuad = story.find_one({'_id':  ObjectId(c_id)})
     print("reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
     print(foundnew_cuad)
-    return jsonify({"result":foundnew_cuad["_id"]})
+    return jsonify({"result":foundnew_cuad})
 
 
 

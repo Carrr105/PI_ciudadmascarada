@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {getCuad, newCuad, hist, getHist, getCuadsID} from  "../RutasFunciones"
 import {Link, useNavigate} from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
-
+import Swal from 'sweetalert2'
 
 export default class StoriesList extends Component {
   constructor(props) {
@@ -82,7 +82,10 @@ export default class StoriesList extends Component {
 
   setActivehistoria(historia, index) {
     localStorage.setItem("histid",historia.id)
+    localStorage.setItem("hist",historia)
     console.log(localStorage.getItem("histid"))
+    localStorage.setItem("hist", JSON.stringify(historia));
+
     this.setState({
       currenthistoria: historia,
       currentIndex: index
@@ -102,12 +105,24 @@ export default class StoriesList extends Component {
 
   }
 
+lol(){
+  const Toast = Swal.mixin({
+    title: "Guía rápida para el usuario",
+    toast:true,
+    text: "Aquí podras ver tus historias escritas. Selecciona una para comenza a editarla, leerla o ver el mapa de los capítulos.",
+    showConfirmButton: true,
+  })
+
+  Toast.fire({
+  })
+  }
+
   morir(event){
     var x = []
     getCuad().then(response => {
 
            for (var i = 0; i < response.length; i++) {
-             x.push(response[i][2])
+             x.push(response[i].titulo)
            }
            localStorage.setItem("editar",x)
 
@@ -157,10 +172,7 @@ export default class StoriesList extends Component {
             {SearchStories &&
               SearchStories.map((historia, index) => (
                 <li
-                  className={
-                    "list-group-item " +
-                    (index === currentIndex ? "active" : "")
-                  }
+                  className={ "list-group-item " + (index === currentIndex ? "active" : "")}
                   onClick={() => this.setActivehistoria(historia, index)}
                   key={index}
                 >
@@ -169,12 +181,6 @@ export default class StoriesList extends Component {
               ))}
           </ul>
 
-          <button
-            className="m-3 btn btn-sm btn-danger"
-            onClick={this.removeAllStories}
-          >
-            Remover
-          </button>
         </div>
         <div className="col-md-6">
           {currenthistoria ? (
@@ -223,6 +229,7 @@ export default class StoriesList extends Component {
             </div>
           )}
         </div>
+        <button type="button" onClick={()=>this.lol()} style={{margin:15}} class="btn btn-info">Info</button>
       </div>
     );
   }

@@ -11,6 +11,9 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import {getCuad, getCuadsID} from  "../RutasFunciones"
 import dagre from 'dagre';
+import Swal from 'sweetalert2'
+import {Link, useNavigate} from 'react-router-dom'
+import React, { useCallback } from "react";
 function Flow() {
 var noditos = [];
 var arquitos = [];
@@ -20,6 +23,10 @@ const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
   const nodeWidth = 172;
   const nodeHeight = 36;
+  const navigate = useNavigate();
+  function edit(){
+
+  }
 
   const getLayoutedElements = (nodes, edges, direction = 'TB') => {
     const isHorizontal = direction === 'LR';
@@ -39,9 +46,6 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
       const nodeWithPosition = dagreGraph.node(node.id);
       node.targetPosition = isHorizontal ? 'left' : 'top';
       node.sourcePosition = isHorizontal ? 'right' : 'bottom';
-
-      // We are shifting the dagre node position (anchor=center center) to the top left
-      // so it matches the React Flow node anchor point (top left).
       node.position = {
         x: nodeWithPosition.x - nodeWidth / 2,
         y: nodeWithPosition.y - nodeHeight / 2,
@@ -94,8 +98,15 @@ useEffect(() => {
     }
     var dataa = data.reverse()
     for (var i = 0; i < dataa.length; i++) {
-
-      var arco = { id: String(i)+"-"+String(i+1), source: dataa[i].fathernode, target:dataa[i].id }
+      var arc = ""
+      var arr =  Object.keys(dataa[i]["KeyVals"])
+        for (var j = 0; j < arr.length; j++) {
+          console.log(j)
+          if(dataa[i].KeyVals[arr[j]] > 1){
+            arc = arc + ","+ arr[j]
+          }
+        }
+      var arco = { id: String(i)+"-"+String(i+1), source: dataa[i].fathernode, target:dataa[i].id, label:arc.slice(1) }
       arquitos.push(arco)
     }
    console.log(noditos)
@@ -132,9 +143,38 @@ const onLayout = (
   },
   [nodes, edges]
 );
+const handleClick = (evt, nodeData) => {
+       console.log(nodeData);
+      localStorage.setItem("capId",nodeData.id)
+       Swal.fire({
+         title: '¿Quieres editar este capítulo?',
+         showCancelButton: true,
+         confirmButtonText: 'Editar'
+       }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+           //localStorage.setItem("firstnode",data.result)
+           //localStorage.setItem("fathernode","-")
+           navigate('/new');
 
+         }
+   })
+
+     }
+const [node, setNode] = useNodesState("");
+const onClickElement = useCallback((event: ReactMouseEvent, element: Node | Edge) => {
+// Set the clicked element in local state
+setNode(element)
+console.log(element)
+}, [])
   //const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [datos] = useState();
+  function xx(){
+    console.log("si funciona así")
+  }
+  function xxx(){
+    console.log("si fasdfasdfasdfunciona así")
+  }
   //const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
     return (
         <>
@@ -146,6 +186,7 @@ const onLayout = (
           nodes={nodes}
           onConnect={onConnect}
           edges={edges}
+          onNodeClick = {handleClick}
           attributionPosition="top-center"
           fitView>
           <Background color="#0e2944" size={.2}  variant = {"lines"}/>
@@ -166,6 +207,7 @@ const onLayout = (
     />
           </ReactFlow>
           <div className="controls">
+          <button type="button" class="btn btn-info">Info</button>
 </div>
         </>
     )
