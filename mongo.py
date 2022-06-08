@@ -247,8 +247,11 @@ def getUsers():
 def register():
     users = mongo.db.Usuario
     usuario = request.get_json()['usuario']
+    ex_user = users.find_one({"usuario": request.get_json()['usuario']})
+    if ex_user is not None:
+        return "ya existe"
     email = request.get_json()['email']
-    password = request.get_json()['password']
+    password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
     print("hi","\n")
     user_id = users.insert_one({
         'usuario': usuario,
@@ -270,7 +273,7 @@ def login():
     result = ""
     response = users.find_one({'usuario': usuario})
     if response:
-        if response['password']:
+        if  bcrypt.check_password_hash(response['password'], password):
             access_token = create_access_token(identity = {
                 'usuario': response['usuario'],
                 'password': response['password']

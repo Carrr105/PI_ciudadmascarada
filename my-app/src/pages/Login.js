@@ -98,13 +98,13 @@ function NewStory() {
             <div className="row">
                 <div className="col-md-6 mt-5 mx-auto">
                       <form noValidate onSubmit={subm}>
-                        <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+                        <h1 className="h3 mb-3 font-weight-normal">Identifícate</h1>
                         <div className="form-group">
                             <label htmlFor="usuario">Usuario</label>
                             <input type="usuario"
                                 className="form-control"
                                 name="usuario"
-                                placeholder="Enter usuario"
+                                placeholder="Usuario"
                                 onChange={handleChange} />
                         </div>
 
@@ -113,12 +113,12 @@ function NewStory() {
                             <input type="password"
                                 className="form-control"
                                 name="password"
-                                placeholder="Enter Password"
+                                placeholder="Contraseña"
                                 onChange={handleChangeS} />
                         </div>
 
                         <button onClick={forceUpdate} type="submit" className="btn btn-lg btn-primary btn-block">
-                            Sign in
+                            Entrar
                         </button>
                         </form>
 

@@ -194,7 +194,7 @@ lol(){
               </div>
               <div>
                 <label>
-                  <strong>Description:</strong>
+                  <strong>Descripción:</strong>
                 </label>{" "}
                 {currenthistoria.descripcion}
               </div>

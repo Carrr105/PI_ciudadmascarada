@@ -56,7 +56,7 @@ const handleChangeD = (key, value) => {
 }
     function setActiveCapitulo(historia, index){
       Swal.fire({
-        title: '¿Editar este capítulo??',
+        title: '¿Editar este capítulo?',
         text: "Tu progreso en el capítulo que estás editando se guardará",
         icon: 'warning',
         showCancelButton: true,
@@ -465,7 +465,7 @@ function guardar(){
               <div className="col-md-8">
                 <div className="input-group mb-3">
                 <div className="col-md-6" style={{paddingRight: 10}}>
-                  <h4>Lista de capitulos</h4>
+                  <h4>Lista de capítulos</h4s
                   { isBusy ?
                     <div> esperando </div> :
                   (<ul className="list-group">

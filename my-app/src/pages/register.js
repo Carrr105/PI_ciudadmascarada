@@ -5,7 +5,7 @@ import toolbar from "../toolbar"
 import "quill/dist/quill.snow.css"
 import {register} from  "../RutasFunciones"
 import {Link, useNavigate} from 'react-router-dom'
-
+import Swal from 'sweetalert2'
 function Register(){
 
   const [password, setPassword] = useState("");
@@ -30,17 +30,28 @@ function Register(){
   const navigate = useNavigate();
     function onSubmit (e) {
         e.preventDefault()
-
         const newUser = {
             usuario: user,
             email: email,
             password: password
         }
 
-        register(newUser).then(res => {
-            navigate('/login');
+        if (user || email || password) {
+          register(newUser).then(res => {
+            console.log(res)
+            if (res.data != "ya existe") {
 
-        })
+
+              navigate('/login');
+            }else {
+              Swal.fire({title:"Ese usuario ya existe!"})
+            }
+
+          })
+        } else {
+          Swal.fire({title:"Verifica que los campos estén llenos"})
+        }
+
     }
 
         return (
