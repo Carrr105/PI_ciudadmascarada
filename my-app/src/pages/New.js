@@ -465,7 +465,7 @@ function guardar(){
               <div className="col-md-8">
                 <div className="input-group mb-3">
                 <div className="col-md-6" style={{paddingRight: 10}}>
-                  <h4>Lista de capítulos</h4s
+                  <h4>Lista de capítulos</h4>
                   { isBusy ?
                     <div> esperando </div> :
                   (<ul className="list-group">
