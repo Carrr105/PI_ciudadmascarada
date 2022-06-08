@@ -76,7 +76,6 @@ useEffect(() => {
   getCuadsID(localStorage.getItem("histid")).then(data =>{
     console.log(localStorage.getItem("histid"))
     console.log("sss")
-    data.shift()
     var nodos = [];
     var arcos = [];
     for (var i = 0; i < data.length; i++) {
@@ -148,6 +147,7 @@ const handleClick = (evt, nodeData) => {
       localStorage.setItem("capId",nodeData.id)
        Swal.fire({
          title: '¿Quieres editar este capítulo?',
+         text:"Esta es la descripción de la historia lalalallalalalalallalalalalalalalal",
          showCancelButton: true,
          confirmButtonText: 'Editar'
        }).then((result) => {

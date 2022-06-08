@@ -200,8 +200,6 @@ const handleChangeD = (key, value) => {
       if (!localStorage.getItem("capId").length == 0) {
 
         getCuadID(localStorage.getItem("capId")).then(data =>{
-
-
           tryme(data[0].titulo )
           quill.root.innerHTML = "data[0].text"
           console.log("IM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
@@ -210,6 +208,8 @@ const handleChangeD = (key, value) => {
           localStorage.setItem("fathernode", data[0].fathernode)
           console.log(data[0].text)
           quill.root.innerHTML = data[0].text
+          setDec(data[0].DecisionVals)
+          setKeys(data[0].KeyVals)
           localStorage.setItem("capId", "")
         })
       }
