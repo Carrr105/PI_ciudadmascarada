@@ -168,7 +168,7 @@ swalWithBootstrapButtons.fire({
 
           <div style={{paddingRight: 200,paddingLeft: 195,paddingTop: 20}}>
             <h1>Crea tu Historia</h1>
-            <input  type="text" style={{PaddingRight: 500}} placeholder="Titulo" id="value" value={title} onChange={handleChange} className="form-control" /> <br />
+            <input  type="text" style={{PaddingRight: 500}} placeholder="Título" id="value" value={title} onChange={handleChange} className="form-control" /> <br />
             <form  style={{margin: "auto", paddingRight:600}} name="myForm" id="myForm" onSubmit="return validateForm()">
                 <br />
 

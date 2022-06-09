@@ -15,13 +15,13 @@ function New() {
   var buttons = [
   <Button id="uno" onClick={() => {
         swals1();
-    } } key="one">Decision 1</Button>,
+    } } key="one">Decisión 1</Button>,
   <Button id="dos" onClick={() => {
         swals2();
-    } } key="two">Decision 2</Button>,
+    } } key="two">Decisión 2</Button>,
   <Button id="tres" onClick={() => {
         swals3();
-    } } key="three">Decision 3</Button>,
+    } } key="three">Decisión 3</Button>,
 ];
 
 var botones = [
@@ -56,7 +56,7 @@ const handleChangeD = (key, value) => {
 }
     function setActiveCapitulo(historia, index){
       Swal.fire({
-        title: '¿Editar este capítulo??',
+        title: '¿Editar este capítulo?',
         text: "Tu progreso en el capítulo que estás editando se guardará",
         icon: 'warning',
         showCancelButton: true,
@@ -103,7 +103,7 @@ const handleChangeD = (key, value) => {
         localStorage.setItem("fathernode", localStorage.getItem("firstnode"))
         var items = {
           histid: histid,
-          titulo: "Nuevo Capitulo",
+          titulo: "Nuevo Capítulo",
           fathernode: localStorage.getItem("fathernode"),
           text: "",
           KeyVals:keys,
@@ -134,7 +134,7 @@ const handleChangeD = (key, value) => {
       updateCuad(item).then(data=>{
         var items = {
           histid: histid,
-          titulo: "Nuevo Capitulo",
+          titulo: "Nuevo Capítulo",
           fathernode: localStorage.getItem("fathernode"),
           text:"",
           KeyVals:keys,
@@ -427,7 +427,7 @@ function guardar(){
       const Toast = Swal.mixin({
         title: "Guía rápida para el usuario",
         toast:true,
-        text: "¡Hora de escribir los capítulos! Dale un título y contenido a tu capítulo. Usarás los botones de decisiones para ingresar un máximo de tres decisiones, cada decisión cuenta con un espacio para el dialogo/linea, la variable a la que afectará, y con que Karma va afectar. El botón de Valores llave te dejará escoger los valores con los que uno llega al capítulo que estás escribiendo. Usa los botones de Nuevo capítulo para crear un capitulo siguiente al que estas escribiendo, o el botón Capítulo Alterno para escribir una linea alterna con la que podrías llegar con otras variables llave. ",
+        text: "¡Hora de escribir los capítulos! Dale un título y contenido a tu capítulo. Usarás los botones de decisiones para ingresar un máximo de tres decisiones, cada decisión cuenta con un espacio para el diálogo/línea, la variable a la que afectará, y con que Karma va afectar. El botón de Valores llave te dejará escoger los valores con los que uno llega al capítulo que estás escribiendo. Usa los botones de Nuevo capítulo para crear un capítulo siguiente al que estás escribiendo, o el botón Capítulo Alterno para escribir una línea alterna con la que podrías llegar con otras variables llave. ",
         showConfirmButton: true,
       })
 
@@ -465,7 +465,7 @@ function guardar(){
               <div className="col-md-8">
                 <div className="input-group mb-3">
                 <div className="col-md-6" style={{paddingRight: 10}}>
-                  <h4>Lista de capitulos</h4>
+                  <h4>Lista de capítulos</h4>
                   { isBusy ?
                     <div> esperando </div> :
                   (<ul className="list-group">

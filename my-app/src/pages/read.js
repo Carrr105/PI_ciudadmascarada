@@ -176,7 +176,7 @@ function aa(){
         return 0;
       }
 }
-    console.log("capitulo no encontrado")
+    console.log("capítulo no encontrado")
   };
 
 
