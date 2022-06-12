@@ -37,6 +37,9 @@ function Register(){
         }
 
         if (user.length > 0 && email.length > 0 && password.length > 0) {
+          console.log(user.length)
+          console.log(email.length)
+          console.log(password.length)
           register(newUser).then(res => {
             console.log(res)
             if (res.data != "ya existe") {
