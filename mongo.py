@@ -97,6 +97,24 @@ def getIDHistbyID(id):
     return jsonify(hist)
 
 
+@app.route('/hist/user/<id>', methods=['GET'])
+def getIDHistbyUsertID(id):
+    db = mongo.db.Historia
+    hist = []
+    for doc in db.find({'userid': id}):
+        hist.append({
+            '_id': doc['_id'],
+            'userid': doc['userid'],
+            'titulo': doc['titulo'],
+            'descripcion': doc['descripcion'],
+            'valvar': doc['valvar'],
+            'nombrevar': doc['nombrevar'],
+            'firstnode': doc['firstnode']
+        })
+    return jsonify(hist)
+
+
+
 @app.route('/cuadro', methods=['GET'])
 def getCuad():
     db = mongo.db.Cuadro
@@ -284,7 +302,7 @@ def login():
             print(access_token)
         else:
             exit;
-            result = jsonify({"error":"Invalid username and password"})
+            result = jsonify({"result":"0"})
     else:
         result = jsonify({"result":"0"})
     return result

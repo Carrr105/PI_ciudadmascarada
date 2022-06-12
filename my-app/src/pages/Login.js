@@ -5,7 +5,7 @@ import toolbar from "../toolbar"
 import "quill/dist/quill.snow.css"
 import {getCuad, newCuad, hist,login} from  "../RutasFunciones"
 import {Link, useNavigate} from 'react-router-dom'
-
+import Swal from 'sweetalert2'
 function NewStory() {
     const navigate = useNavigate();
 
@@ -88,7 +88,7 @@ function NewStory() {
                   window.location.reload()
               }
               else {
-                console.log("Usuario o contraseña invalidos")
+                Swal.fire({title: "Usuario o contraseña invalidos"})
              }
           })
       }

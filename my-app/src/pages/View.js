@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {getCuad, newCuad, hist, getHist, getCuadsID} from  "../RutasFunciones"
+import {getCuad, newCuad, hist, getHist, getCuadsID,getHistbyUserID} from  "../RutasFunciones"
 import {Link, useNavigate} from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
 import Swal from 'sweetalert2'
@@ -37,6 +37,7 @@ export default class StoriesList extends Component {
    }
   componentDidMount() {
     this.retrieveStories();
+    console.log(localStorage.getItem("usuario"))
     const token = localStorage.usertoken
     console.log(jwt_decode(token))
     const decoded = jwt_decode(token)
@@ -59,7 +60,7 @@ export default class StoriesList extends Component {
   }
 
   retrieveStories() {
-    getHist().then(response => {
+    getHistbyUserID(localStorage.getItem("usuario")).then(response => {
         this.setState({
           Stories: response,
           SearchStories: response
