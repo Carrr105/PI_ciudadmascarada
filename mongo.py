@@ -338,5 +338,6 @@ def serve():
 @app.errorhandler(404)
 def frontend(_):
     return app.send_static_file("index.html")
+
 if __name__ == '__main__':
     app.run(debug=True)
