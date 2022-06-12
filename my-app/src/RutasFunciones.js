@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const register = newUser => {
     return axios
-        .post("http://127.0.0.1:5000/api/users/register", {
+        .post(" /api/users/register", {
             usuario: newUser.usuario,
             email: newUser.email,
             password: newUser.password
@@ -14,7 +14,7 @@ export const register = newUser => {
 
 export const login = user => {
     return axios
-        .post("http://127.0.0.1:5000/api/users/login", {
+        .post(" /api/users/login", {
             usuario: user.usuario,
             password: user.password
         })
@@ -32,7 +32,7 @@ export const login = user => {
 
 export const hist = newHist => {
     return axios
-        .post("http://127.0.0.1:5000/api/hist", {
+        .post(" /api/hist", {
             userid: newHist.userid,
             titulo: newHist.titulo,
             descripcion: newHist.descripcion,
@@ -50,7 +50,7 @@ export const hist = newHist => {
 
 export const updateHist = (newHist) => {
     return axios
-        .put(`http://127.0.0.1:5000/api/hist`, {
+        .put(` /api/hist`, {
             userid: newHist.userid,
             "_id": newHist["_id"],
             titulo: newHist.titulo,
@@ -71,7 +71,7 @@ export const updateHist = (newHist) => {
 
 export const newCuad = newCuadro => {
     return axios
-        .post("http://127.0.0.1:5000/api/cuadro", {
+        .post(" /api/cuadro", {
             histid: newCuadro.histid,
             titulo: newCuadro.titulo,
             fathernode: newCuadro.fathernode,
@@ -89,7 +89,7 @@ export const newCuad = newCuadro => {
 
 export const updateCuad = (newCuadro) => {
     return axios
-        .put(`http://127.0.0.1:5000/api/cuadro`, {
+        .put(` /api/cuadro`, {
             "_id": newCuadro["_id"],
             histid: newCuadro.histid,
             titulo: newCuadro.titulo,
@@ -111,7 +111,7 @@ export const updateCuad = (newCuadro) => {
 
 export const getCuad = getCuadro => {
     return axios
-        .get(`http://127.0.0.1:5000/api/cuadro`, {
+        .get(` /api/cuadro`, {
           headers: { 'Content-type': 'application/json' }
         })
         .then(res => {
@@ -130,7 +130,7 @@ export const getCuad = getCuadro => {
 
 export const getCuadsID = (id) => {
     return axios
-        .get(`http://127.0.0.1:5000/api/cuadro/${id}`, {
+        .get(` /api/cuadro/${id}`, {
           headers: { 'Content-type': 'application/json' }
         })
         .then(res => {
@@ -149,7 +149,7 @@ export const getCuadsID = (id) => {
 
 export const getCuadID = (id) => {
     return axios
-        .get(`http://127.0.0.1:5000/api/cuadro/x/${id}`, {
+        .get(` /api/cuadro/x/${id}`, {
           headers: { 'Content-type': 'application/json' }
         })
         .then(res => {
@@ -169,7 +169,7 @@ export const getCuadID = (id) => {
 
 export const getHist = () => {
     return axios
-        .get(`http://127.0.0.1:5000/api/hist`, {
+        .get(` /api/hist`, {
           headers: { 'Content-type': 'application/json' }
         })
         .then(res => {
@@ -188,7 +188,7 @@ export const getHist = () => {
 
 export const getHistbyID = (id) => {
     return axios
-        .get(`http://127.0.0.1:5000/api/hist/${id}`, {
+        .get(` /api/hist/${id}`, {
           headers: { 'Content-type': 'application/json' }
         })
         .then(res => {
@@ -206,7 +206,7 @@ export const getHistbyID = (id) => {
 }
 export const getHistbyUserID = (id) => {
     return axios
-        .get(`http://127.0.0.1:5000/api/hist/user/${id}`, {
+        .get(` /api/hist/user/${id}`, {
           headers: { 'Content-type': 'application/json' }
         })
         .then(res => {
