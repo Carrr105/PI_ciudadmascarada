@@ -21,7 +21,7 @@ export const login = user => {
         .then(response => {
             if(response.data.result) {return response.data.result}
             localStorage.setItem('usertoken', response.data.token)
-            localStorage.setItem('user', response.data.id)
+            localStorage.setItem('usuario', response.data.id)
             return response.data.token
         })
         .catch(err => {
