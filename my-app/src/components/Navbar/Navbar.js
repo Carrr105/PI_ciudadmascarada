@@ -33,17 +33,19 @@ function Navbar(){
 
           const userLink = (
             <div>
+
             <ul className="navbar-nav">
+            <li className="nav-item">
+            <Link to="/view" className="btn btn-outline-info my-2 my-sm-0">
+                Ver tus historias
+            </Link>
+            </li>
                 <li className="nav-item">
                     <Link to="/newstory" className="nav-link">
                         Nueva historia
                     </Link>
                 </li>
-                <li className="nav-item">
-                    <Link to="/view" className="nav-link">
-                        Ver tus historias
-                    </Link>
-                </li>
+
                 <li className="nav-item">
                     <Link to="/login" onClick={logOut} className="nav-link">
                         Cerrar Sesión
@@ -73,9 +75,7 @@ function Navbar(){
                 id="navbar1">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <Link to="/flow" className="btn btn-outline-info my-2 my-sm-0">
-                            Home
-                        </Link>
+
                     </li>
                 </ul>
               {localStorage.usertoken ? userLink : loginRegLink}

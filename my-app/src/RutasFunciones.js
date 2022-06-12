@@ -8,7 +8,7 @@ export const register = newUser => {
             password: newUser.password
         })
         .then(response => {
-            console.log("Registered")
+            return response
         })
 }
 
@@ -21,6 +21,7 @@ export const login = user => {
         .then(response => {
             if(response.data.result) {return response.data.result}
             localStorage.setItem('usertoken', response.data.token)
+            localStorage.setItem('user', response.data.id)
             return response.data.token
         })
         .catch(err => {
@@ -188,6 +189,24 @@ export const getHist = () => {
 export const getHistbyID = (id) => {
     return axios
         .get(`http://127.0.0.1:5000/hist/${id}`, {
+          headers: { 'Content-type': 'application/json' }
+        })
+        .then(res => {
+            var data = []
+            Object.keys(res.data).forEach(function (key) {
+                var val = res.data[key]
+                data.push({"id":val._id, "titulo":val.titulo, "descripcion":val.descripcion, "valvar": val.valvar, "nombrevar":val.nombrevar, "firstnode": val.firstnode})
+            })
+
+            return data
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+export const getHistbyUserID = (id) => {
+    return axios
+        .get(`http://127.0.0.1:5000/hist/user/${id}`, {
           headers: { 'Content-type': 'application/json' }
         })
         .then(res => {

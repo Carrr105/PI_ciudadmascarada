@@ -15,6 +15,8 @@ function NewStory() {
     var olawas = 1234567;
 
     const funcionx = (index) => {
+      if((serviceList.length < 1)) {Swal.fire({title: "Agrega al menos una variable!"})
+    return 0;}
       var vars = [];
       var arr = {}
       console.log(vars)
@@ -26,7 +28,7 @@ function NewStory() {
       console.log(arr)
       var items = {
         "titulo" : title,
-        "userid" :  "itwjeirojt45345t354kt345kl45jtkl453lkt345",
+        "userid" :  localStorage.getItem("usuario"),
         "descripcion" :  desc,
         "valvar" :  arr,
         "nombrevar" :  "serviceList",

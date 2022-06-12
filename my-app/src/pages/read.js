@@ -35,7 +35,7 @@ function Main() {
     getCuadsID(localStorage.getItem("histid")).then(data=>{
       setCapitulos(data)
       console.log(capitulos)
-      setOnscreen(data[1])
+      setOnscreen(data[0])
     })
     getHistbyID(localStorage.getItem("histid")).then(data=>{
       console.log(data[0])
@@ -224,6 +224,7 @@ function miconsolelog(){
             </div >
 
             <div  style={{position:"fixed",left:0, bottom:0,width:2090,text_align:"center"}}>
+                        <button type="button" class="btn btn-info">Info</button>
             <BottomNavigation
             showLabels
             style={{backgroundColor:"#343a40"}}
@@ -243,7 +244,7 @@ function miconsolelog(){
                  //  window.location.assign("/new");
                } } variant="contained">></Button>
             </BottomNavigation>
-            <button type="button" class="btn btn-info">Info</button>
+
             </div>
         </>
     )
