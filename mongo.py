@@ -31,6 +31,13 @@ db = mongo.db.Historia
 ##########################################################
 ##### cuadros/historia
 #####
+@app.route('/api', methods=["GET"])
+@cross_origin()
+def index():
+    return{
+    "por favor":"salvame"
+    }
+
 @app.route('/hist', methods=['GET'])
 @cross_origin()
 def getHist():
