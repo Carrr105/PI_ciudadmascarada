@@ -31,14 +31,14 @@ db = mongo.db.Historia
 ##########################################################
 ##### cuadros/historia
 #####
-@app.route('/api', methods=["GET"])
+@app.route('/api', methods=["GET"], endpoint='v1')
 @cross_origin()
 def index():
     return{
     "por favor":"salvame"
     }
 
-@app.route('/api/hist', methods=['GET'])
+@app.route('/api/hist', methods=['GET'], endpoint='v1')
 @cross_origin()
 def getHist():
     db = mongo.db.Historia
@@ -55,7 +55,7 @@ def getHist():
         })
     return jsonify(hist)
 
-@app.route('/api/cuadro/<id>', methods=['GET'])
+@app.route('/api/cuadro/<id>', methods=['GET'], endpoint='v1')
 @cross_origin()
 def getIDCuadbyID(id):
     db = mongo.db.Cuadro
@@ -73,7 +73,7 @@ def getIDCuadbyID(id):
     return jsonify(cuadros)
 
 
-@app.route('/api/cuadro/x/<id>', methods=['GET'])
+@app.route('/api/cuadro/x/<id>', methods=['GET'], endpoint='v1')
 @cross_origin()
 def getIDCuadbyIDx(id):
     db = mongo.db.Cuadro
@@ -91,7 +91,7 @@ def getIDCuadbyIDx(id):
     return jsonify(cuadros)
 
 
-@app.route('/api/hist/<id>', methods=['GET'])
+@app.route('/api/hist/<id>', methods=['GET'], endpoint='v1')
 @cross_origin()
 def getIDHistbyID(id):
     db = mongo.db.Historia
@@ -109,7 +109,7 @@ def getIDHistbyID(id):
     return jsonify(hist)
 
 
-@app.route('/api/hist/user/<id>', methods=['GET'])
+@app.route('/api/hist/user/<id>', methods=['GET'], endpoint='v1')
 @cross_origin()
 def getIDHistbyUsertID(id):
     db = mongo.db.Historia
@@ -128,7 +128,7 @@ def getIDHistbyUsertID(id):
 
 
 
-@app.route('/api/cuadro', methods=['GET'])
+@app.route('/api/cuadro', methods=['GET'], endpoint='v1')
 @cross_origin()
 def getCuad():
     db = mongo.db.Cuadro
@@ -146,7 +146,7 @@ def getCuad():
     return jsonify(cuadros)
 
 
-@app.route('/api/deleteHist/<id>', methods=['DELETE'])
+@app.route('/api/deleteHist/<id>', methods=['DELETE'], endpoint='v1')
 @cross_origin()
 def deleteHist(id):
     db = mongo.db.Historia
@@ -156,7 +156,7 @@ def deleteHist(id):
     return result.deleted_count
 
 
-@app.route('/api/deleteCuadro/<id>', methods=['DELETE'])
+@app.route('/api/deleteCuadro/<id>', methods=['DELETE'], endpoint='v1')
 @cross_origin()
 def deleteCuadro(id):
     dbC = mongo.db.Cuadro
@@ -164,7 +164,7 @@ def deleteCuadro(id):
     return result.deleted_count
 
 
-@app.route('/api/cuadro', methods=["POST"])
+@app.route('/api/cuadro', methods=["POST"], endpoint='v1')
 @cross_origin()
 def createCuad():
     cuad = mongo.db.Cuadro
@@ -189,7 +189,7 @@ def createCuad():
 
 
 # Update de un cuadro recibiendo su id
-@app.route('/api/cuadro', methods=["PUT"])
+@app.route('/api/cuadro', methods=["PUT"], endpoint='v1')
 @cross_origin()
 def updateCuadro():
     cuad = mongo.db.Cuadro
@@ -213,7 +213,7 @@ def updateCuadro():
     foundnew_cuad = cuad.find_one({'_id': ObjectId(c_id)})
     return jsonify({'result' : foundnew_cuad["_id"]})
 
-@app.route('/api/hist', methods=["PUT"])
+@app.route('/api/hist', methods=["PUT"], endpoint='v1')
 @cross_origin()
 def updateHist():
     story = mongo.db.Historia
@@ -241,7 +241,7 @@ def updateHist():
 
 
 
-@app.route('/api/hist', methods=["POST"])
+@app.route('/api/hist', methods=["POST"], endpoint='v1')
 @cross_origin()
 def createHist():
     story = mongo.db.Historia
@@ -265,7 +265,7 @@ def createHist():
 
 
 #######################################
-@app.route('/api/users', methods=['GET'])
+@app.route('/api/users', methods=['GET'], endpoint='v1')
 @cross_origin()
 def getUsers():
     users = []
@@ -282,7 +282,7 @@ def getUsers():
 
 
 
-@app.route('/api/users/register', methods=["POST"])
+@app.route('/api/users/register', methods=["POST"], endpoint='v1')
 @cross_origin()
 def register():
     users = mongo.db.Usuario
@@ -305,7 +305,7 @@ def register():
 
     return jsonify({'result' : result})
 
-@app.route('/api/users/login', methods=['POST'])
+@app.route('/api/users/login', methods=['POST'], endpoint='v1')
 @cross_origin()
 def login():
     users = mongo.db.Usuario
